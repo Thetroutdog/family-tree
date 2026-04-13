@@ -3,13 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bennett-Christy Family Tree v3.0</title>
+    <title>Bennett-Christy-Wennerlund-Stratford Family Tree v5.0</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
-            min-height: 100vh;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
             transition: background-color 0.3s, color 0.3s;
         }
 
@@ -100,6 +103,7 @@
             align-items: center;
             gap: 16px;
             flex-wrap: wrap;
+            flex-shrink: 0;
         }
 
         .header-left {
@@ -156,6 +160,7 @@
             gap: 12px;
             flex-wrap: wrap;
             align-items: center;
+            flex-shrink: 0;
         }
 
         /* Family Selector - Segmented Control */
@@ -315,12 +320,53 @@
             margin-top: 2px;
         }
 
-        /* Tree Container */
+        /* Tree Container — flex: 1 keeps it viewport-height-constrained
+           so the horizontal scrollbar always stays at the bottom of the screen */
         #tree-container {
             padding: 24px;
             overflow-x: auto;
             overflow-y: auto;
-            min-height: calc(100vh - 200px);
+            flex: 1;
+            min-height: 0;
+        }
+
+        /* Force a persistent, always-visible scrollbar on macOS Safari.
+           By default macOS uses overlay scrollbars that are invisible until
+           you scroll. These rules make the scrollbar always occupy space. */
+        #tree-container::-webkit-scrollbar {
+            width: 10px;
+            height: 10px;
+        }
+        #tree-container::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.06);
+            border-radius: 5px;
+        }
+        #tree-container::-webkit-scrollbar-thumb {
+            background: rgba(0, 0, 0, 0.25);
+            border-radius: 5px;
+        }
+        #tree-container::-webkit-scrollbar-thumb:hover {
+            background: rgba(0, 0, 0, 0.45);
+        }
+        #tree-container::-webkit-scrollbar-corner {
+            background: transparent;
+        }
+        /* Light theme scrollbar */
+        body.theme-light #tree-container::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.06);
+        }
+        body.theme-light #tree-container::-webkit-scrollbar-thumb {
+            background: rgba(0, 0, 0, 0.2);
+        }
+        /* Dark theme scrollbar */
+        body.theme-dark #tree-container::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.06);
+        }
+        body.theme-dark #tree-container::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        body.theme-dark #tree-container::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 255, 255, 0.4);
         }
 
         /* Person Box */
@@ -646,9 +692,9 @@
 <body class="theme-dark">
     <div id="header">
         <div class="header-left">
-            <h1>Bennett-Christy Family Tree</h1>
+            <h1>Bennett-Christy-Wennerlund Family Tree</h1>
             <div class="header-info">
-                <div class="subtitle">v3.0 - 305 individuals</div>
+                <div class="subtitle" id="subtitle">v5.0</div>
                 <div class="lineage-legend">
                     <div class="lineage-dot"></div>
                     <span>SAR / DAR Patriot Lineage</span>
@@ -667,6 +713,8 @@
             <button class="active" onclick="setFamily('bennett')">Bennett</button>
             <button onclick="setFamily('christy')">Christy</button>
             <button onclick="setFamily('merged')">Merged</button>
+            <button onclick="setFamily('wennerlund')">Wennerlund</button>
+            <button onclick="setFamily('stratford')">Stratford</button>
         </div>
 
         <div class="theme-selector">
@@ -1025,7 +1073,7 @@ const DATA = {
                         "Generation": 9,
                         "Father_ID": "B-CHARLE-1873",
                         "Mother_ID": null,
-                        "Transcript": "Charles [Baker] Christy,\n          b 4/8/21, Phoenix\n          m Jeann\u00e9 Gray, b 8/26/18, Riverton, Wyoming\n          Marriage Date: 7/4/43, Casper, Wyoming",
+                        "Transcript": "Charles [Baker] Christy,\n          b 4/8/21, Phoenix\n          m Jeanné Gray, b 8/26/18, Riverton, Wyoming\n          Marriage Date: 7/4/43, Casper, Wyoming",
                         "Source_Images": "IMG_0919v"
                 },
                 {
@@ -2983,7 +3031,7 @@ const DATA = {
                         "Generation": 11,
                         "Father_ID": "B-GEORGE-3/5/",
                         "Mother_ID": null,
-                        "Transcript": "Rene\u00e9 Louise Cavin, Iowa State Univ. (May, 1974 Graduate - Bacteriology)\n          b 8/13/52",
+                        "Transcript": "Reneé Louise Cavin, Iowa State Univ. (May, 1974 Graduate - Bacteriology)\n          b 8/13/52",
                         "Source_Images": "IMG_0911v"
                 },
                 {
@@ -3214,7 +3262,7 @@ const DATA = {
                         "Generation": 3,
                         "Father_ID": "B-SAMUEL-001",
                         "Mother_ID": null,
-                        "Transcript": "SAMUEL BENNETT, b 9/14/1690, East Greenwich, R. I. He was an Ensign 1722-24; Lt. 1725-6; Capt. 1729-1731-1736. m Mary Stafford, 9/15/1716 at Warwick, R. I. Mary Stafford b 9/16/1690 - d 3/24/1782.\n(See Westcott for Stafford)\n\nCHILDREN:\n\nHannah Bennett, b 7/18/1717\nMary Bennett, b 1/2/1721\nAnne Bennett, b 1/4/1725\nFreelove Bennett, b 9/22/1727\n(?) Mary Bennett, b 7/31/1731\nEphraim Bennett, b 1736\nEdward Bennett, b 2/5/1738",
+                        "Transcript": "SAMUEL BENNETT, b 9/14/1690, East Greenwich, R. I. He was an Ensign 1722-24; Lt. 1725-6; Capt. 1729-1731-1736. m Mary Stafford, 9/15/1716 at Warwick, R. I. Mary Stafford b 9/16/1690 - d 3/24/1782.\n(Mary Stratford/Stafford's ancestry — Stratford-Westcott-Burlingame line — traced back to c.1150 in the Stratford family view. Select the Stratford button to explore.)\n\nCHILDREN:\n\nHannah Bennett, b 7/18/1717\nMary Bennett, b 1/2/1721\nAnne Bennett, b 1/4/1725\nFreelove Bennett, b 9/22/1727\n(?) Mary Bennett, b 7/31/1731\nEphraim Bennett, b 1736\nEdward Bennett, b 2/5/1738",
                         "Source_Images": "IMG_0893v"
                 },
                 {
@@ -3764,7 +3812,7 @@ const DATA = {
                         "Generation": 2,
                         "Father_ID": "C-WILLIA-001",
                         "Mother_ID": null,
-                        "Transcript": "ISAAC MARSHALL CHRISTY, 1844-1905 - Ohio; Iowa; Arizona.\n\nIsaac Marshall Christy, In 1852 drove an ox train from Ohio to Osceola,\n               Clark Co., Iowa; served 4\u00bd years in Civil War - Sergeant;\n               Co. I, 15th Iowa U. S. Vet. Vol., Sergt. Lived in\n               Burlington, Iowa until 1887; came to Arizona in 1887.\n          b 4/18/1844, Wetherfield, Trumbul Co., Ohio (Or Weathersford?);\n               (or b Bristol, Ohio?) d 3/30/1905, Phoenix, Arizona\n          m Louisa Almira Bennett, b 9/19/1845; d 6/30/1900\n          Marriage Date: 2/23/1871\n\n     Children:\n\n     See: BENNETT - Louisa Almira Bennett and Isaac Marshall Christy\n\n     Miles Cassius Christy, Lived in Des Moines, Iowa\n          b 6/23/1846, Bristol, Ohio; d 1911\n          m Leora Evans\n          Marriage Date:\n\n     Children:",
+                        "Transcript": "ISAAC MARSHALL CHRISTY, 1844-1905 - Ohio; Iowa; Arizona.\n\nIsaac Marshall Christy, In 1852 drove an ox train from Ohio to Osceola,\n               Clark Co., Iowa; served 4½ years in Civil War - Sergeant;\n               Co. I, 15th Iowa U. S. Vet. Vol., Sergt. Lived in\n               Burlington, Iowa until 1887; came to Arizona in 1887.\n          b 4/18/1844, Wetherfield, Trumbul Co., Ohio (Or Weathersford?);\n               (or b Bristol, Ohio?) d 3/30/1905, Phoenix, Arizona\n          m Louisa Almira Bennett, b 9/19/1845; d 6/30/1900\n          Marriage Date: 2/23/1871\n\n     Children:\n\n     See: BENNETT - Louisa Almira Bennett and Isaac Marshall Christy\n\n     Miles Cassius Christy, Lived in Des Moines, Iowa\n          b 6/23/1846, Bristol, Ohio; d 1911\n          m Leora Evans\n          Marriage Date:\n\n     Children:",
                         "Source_Images": "IMG_0922v, IMG_0924v"
                 },
                 {
@@ -4063,9 +4111,1655 @@ const DATA = {
                         "Mother_ID": null,
                         "Transcript": "Zell Christy,    )     Both of Des Moines, Iowa",
                         "Source_Images": "IMG_0924v"
+                },
+                {
+                        "ID": "W-ERIK-1835",
+                        "Name": "Erik Börjesson",
+                        "Birth": "1835-11-20",
+                        "Death": "1916-08-16",
+                        "Generation": 7,
+                        "Father_ID": null,
+                        "Mother_ID": null,
+                        "Transcript": "Erik Börjesson — b. 1835-11-20, Århult, Åmåls landsförs — d. 1916-08-16, Århult, Åmåls landsförs — Erik Börjesson. Born 1835-11-20 in Århult, Åmåls landsförs (P). Died 1916-08-16 in Århult, Åmåls landsförs (P).",
+                        "Source_Images": "SRC-BK-2010-001"
+                },
+                {
+                        "ID": "W-KAISA-1844",
+                        "Name": "Kaisa Johannesdotter",
+                        "Birth": "1844-10-05",
+                        "Death": "1909-05-17",
+                        "Generation": 11,
+                        "Father_ID": null,
+                        "Mother_ID": null,
+                        "Transcript": "Kaisa Johannesdotter — b. 1844-10-05, Århult, Åmåls landsförs — d. 1909-05-17",
+                        "Source_Images": "SRC-BK-2010-001"
+                },
+                {
+                        "ID": "W-JOHAN-1869",
+                        "Name": "Johan Alfred Eriksson (Wennerlund)",
+                        "Birth": "1869-02-15",
+                        "Death": null,
+                        "Generation": 8,
+                        "Father_ID": "W-ERIK-1835",
+                        "Mother_ID": null,
+                        "Transcript": "Johan Alfred Eriksson (Wennerlund) — b. 1869-02-15, Århult, Åmåls landsförs — (Born Eriksson; changed surname to Wennerlund upon US immigration) — Johan Alfred Eriksson (Wennerlund). Born 1869-02-15 in Århult, Åmåls landsförs (P). Moved 1887 from Århult, Åmåls landsförs (P) to USA (Hfl.227). Byter namn till Wennerlund i USA",
+                        "Source_Images": "SRC-BK-2010-001"
+                },
+                {
+                        "ID": "W-MARIA-1871",
+                        "Name": "Maria Falander",
+                        "Birth": "1871-07-29",
+                        "Death": "1919-01-13",
+                        "Generation": 11,
+                        "Father_ID": null,
+                        "Mother_ID": null,
+                        "Transcript": "Maria Falander — b. 1871-07-29, Kinnarumma — d. 1919-01-13",
+                        "Source_Images": "SRC-BK-2010-001"
+                },
+                {
+                        "ID": "W-ERIK-1899",
+                        "Name": "Erik Rudolf Wennerlund",
+                        "Birth": "1899-02-22",
+                        "Death": "1972-08-23",
+                        "Generation": 9,
+                        "Father_ID": "W-JOHAN-1869",
+                        "Mother_ID": null,
+                        "Transcript": "Erik Rudolf Wennerlund — b. 1899-02-22, Cloquet, MN, USA — d. 1972-08-23, Cloquet, MN, USA — Erik Rudolf Wennerlund. Born 1899-02-22 in Cloquet, MN, USA. Died 1972-08-23 in Cloquet, MN, USA.",
+                        "Source_Images": "SRC-BK-2010-001"
+                },
+                {
+                        "ID": "W-WALTER-1904",
+                        "Name": "Walter Hanford Wennerlund",
+                        "Birth": "1904-10-30",
+                        "Death": "1989-01-20",
+                        "Generation": 9,
+                        "Father_ID": "W-JOHAN-1869",
+                        "Mother_ID": null,
+                        "Transcript": "Walter Hanford Wennerlund — b. 1904-10-30, Cloquet, MN, USA — d. 1989-01-20, St — Walter Hanford Wennerlund. Born 1904-10-30 in Cloquet, MN, USA. Died 1989-01-20 in St.Louis Conty.",
+                        "Source_Images": "SRC-BK-2010-001"
+                },
+                {
+                        "ID": "W-HAZEL-1907",
+                        "Name": "Hazel Sarah Johanna Fahlstrom",
+                        "Birth": "1907-09-26",
+                        "Death": "1993-09-27",
+                        "Generation": 11,
+                        "Father_ID": null,
+                        "Mother_ID": null,
+                        "Transcript": "Hazel Sarah Johanna Fahlstrom — b. 1907-09-26, Cloquet, MN, USA — d. 1993-09-27",
+                        "Source_Images": "SRC-BK-2010-001"
+                },
+                {
+                        "ID": "W-MARY-1943",
+                        "Name": "Mary Jean Wennerlund",
+                        "Birth": "1943-03-11",
+                        "Death": null,
+                        "Generation": 10,
+                        "Father_ID": "W-WALTER-1904",
+                        "Mother_ID": null,
+                        "Transcript": "Mary Jean Wennerlund — b. 1943-03-11, Cloquet, MN, USA",
+                        "Source_Images": "SRC-BK-2010-001"
+                },
+                {
+                        "ID": "W-LYLE-1944",
+                        "Name": "Lyle Sterling Hallock",
+                        "Birth": "1944-05-25",
+                        "Death": null,
+                        "Generation": 11,
+                        "Father_ID": null,
+                        "Mother_ID": null,
+                        "Transcript": "Lyle Sterling Hallock — b. 1944-05-25, Ainsworth, Brown Conty, Nebraska",
+                        "Source_Images": "SRC-BK-2010-001"
+                },
+                {
+                        "ID": "W-JULIE-1976",
+                        "Name": "Julie Ann Hallock",
+                        "Birth": "1976-06-03",
+                        "Death": null,
+                        "Generation": 11,
+                        "Father_ID": "W-MARY-1943",
+                        "Mother_ID": null,
+                        "Transcript": "Julie Ann Hallock — b. 1976-06-03, Peoria Conty, IL, USA — Julie Ann Hallock. Born 1976-06-03 in Peoria Conty, IL, USA. jewels1976@sbcglobal.net",
+                        "Source_Images": "SRC-BK-2010-001"
+                },
+                {
+                        "ID": "W-DALE-1976",
+                        "Name": "Dale Alan Howard",
+                        "Birth": "1976-03-07",
+                        "Death": null,
+                        "Generation": 11,
+                        "Father_ID": null,
+                        "Mother_ID": null,
+                        "Transcript": "Dale Alan Howard — b. 1976-03-07, Peoria Conty, IL, USA",
+                        "Source_Images": "SRC-BK-2010-001"
+                },
+                {
+                        "ID": "W-NANCY-1946",
+                        "Name": "Nancy Key Wennerlund",
+                        "Birth": "1946-11-04",
+                        "Death": null,
+                        "Generation": 10,
+                        "Father_ID": "W-WALTER-1904",
+                        "Mother_ID": null,
+                        "Transcript": "Nancy Key Wennerlund — b. 1946-11-04, Cloquet, MN, USA",
+                        "Source_Images": "SRC-BK-2010-001"
+                },
+                {
+                        "ID": "W-LARRY-1945",
+                        "Name": "Larry James Swanson",
+                        "Birth": "1945-05-06",
+                        "Death": null,
+                        "Generation": 11,
+                        "Father_ID": null,
+                        "Mother_ID": null,
+                        "Transcript": "Larry James Swanson — b. 1945-05-06, Cloquet, MN, USA",
+                        "Source_Images": "SRC-BK-2010-001"
+                },
+                {
+                        "ID": "W-CINDY-1964",
+                        "Name": "Cindy Ann Swanson",
+                        "Birth": "1964-09-19",
+                        "Death": null,
+                        "Generation": 11,
+                        "Father_ID": "W-NANCY-1946",
+                        "Mother_ID": null,
+                        "Transcript": "Cindy Ann Swanson — b. 1964-09-19, Duluth, St",
+                        "Source_Images": "SRC-BK-2010-001"
+                },
+                {
+                        "ID": "W-JENNIF-1970",
+                        "Name": "Jennifer Lyn Swanson",
+                        "Birth": "1970-02-24",
+                        "Death": null,
+                        "Generation": 11,
+                        "Father_ID": "W-NANCY-1946",
+                        "Mother_ID": null,
+                        "Transcript": "Jennifer Lyn Swanson — b. 1970-02-24, Ramsey Conty, MN, USA",
+                        "Source_Images": "SRC-BK-2010-001"
+                },
+                {
+                        "ID": "W-CHRIST-1970",
+                        "Name": "Christoffer Thomas Hanson",
+                        "Birth": "1970-01-20",
+                        "Death": null,
+                        "Generation": 11,
+                        "Father_ID": null,
+                        "Mother_ID": null,
+                        "Transcript": "Christoffer Thomas Hanson — b. 1970-01-20, San Diego, CA, USA",
+                        "Source_Images": "SRC-BK-2010-001"
+                },
+                {
+                        "ID": "W-GUSTAV-1874",
+                        "Name": "Gustav Eriksson",
+                        "Birth": "1874-12-12",
+                        "Death": null,
+                        "Generation": 8,
+                        "Father_ID": "W-ERIK-1835",
+                        "Mother_ID": null,
+                        "Transcript": "Gustav Eriksson — b. 1874-12-12, Århult, Åmåls landsförs — Gustav Eriksson. Born 1874-12-12 in Århult, Åmåls landsförs (P). Moved 1900 from Århult, Åmåls landsförs (P) to USA. Moved 1907 from USA to Århult, Åmåls landsförs (P).",
+                        "Source_Images": "SRC-BK-2010-001"
+                },
+                {
+                        "ID": "W-VENDEL-1882",
+                        "Name": "Vendela, Maria Johansson",
+                        "Birth": "1882-04-08",
+                        "Death": "1954-02-21",
+                        "Generation": 11,
+                        "Father_ID": null,
+                        "Mother_ID": null,
+                        "Transcript": "Vendela, Maria Johansson — b. 1882-04-08, Förlusterud, Edsleskog — d. 1954-02-21",
+                        "Source_Images": "SRC-BK-2010-001"
+                },
+                {
+                        "ID": "W-KARL-1912",
+                        "Name": "Karl Algot Eriksson",
+                        "Birth": "1912-01-27",
+                        "Death": "1986-01-16",
+                        "Generation": 9,
+                        "Father_ID": "W-GUSTAV-1874",
+                        "Mother_ID": null,
+                        "Transcript": "Karl Algot Eriksson — b. 1912-01-27, Århult, Åmåls landsförs — d. 1986-01-16, Åmål — Karl Algot Eriksson. Born 1912-01-27 in Århult, Åmåls landsförs (P) (Sveriges Dödbok 2). Died 1986-01-16 in Åmål (P) (Sveriges Dödbok 2). Buried 1986-01-24 in Åmål (P).",
+                        "Source_Images": "SRC-BK-2010-001"
+                },
+                {
+                        "ID": "W-ELSA-1916",
+                        "Name": "Elsa, Margit Danielsson",
+                        "Birth": "1916-12-25",
+                        "Death": "2008-07-21",
+                        "Generation": 11,
+                        "Father_ID": null,
+                        "Mother_ID": null,
+                        "Transcript": "Elsa, Margit Danielsson — b. 1916-12-25 — d. 2008-07-21",
+                        "Source_Images": "SRC-BK-2010-001"
+                },
+                {
+                        "ID": "W-ALF-1950",
+                        "Name": "Alf, Börje, Ingemar Eriksson",
+                        "Birth": "1950-02-27",
+                        "Death": null,
+                        "Generation": 10,
+                        "Father_ID": "W-KARL-1912",
+                        "Mother_ID": null,
+                        "Transcript": "Alf, Börje, Ingemar Eriksson — b. 1950-02-27",
+                        "Source_Images": "SRC-BK-2010-001"
+                },
+                {
+                        "ID": "W-MAYBRI-1953",
+                        "Name": "May-Britt Elisabeth Berger",
+                        "Birth": "1953-05-28",
+                        "Death": null,
+                        "Generation": 11,
+                        "Father_ID": null,
+                        "Mother_ID": null,
+                        "Transcript": "May-Britt Elisabeth Berger — b. 1953-05-28, Lilla Bräcke, Ånimskog",
+                        "Source_Images": "SRC-BK-2010-001"
+                },
+                {
+                        "ID": "W-GUSTAV-1913",
+                        "Name": "Gustav, Herbert Eriksson",
+                        "Birth": "1913-11-22",
+                        "Death": "2001-01-17",
+                        "Generation": 9,
+                        "Father_ID": "W-GUSTAV-1874",
+                        "Mother_ID": null,
+                        "Transcript": "Gustav, Herbert Eriksson — b. 1913-11-22, Århult, Åmåls landsförs — d. 2001-01-17, 1:5, Sand, Östby, Åmåls landsförs — Gustav, Herbert Eriksson . Born 1913-11-22 in Århult, Åmåls landsförs (P). Died 2001-01-17 in 1:5, Sand, Östby, Åmåls landsförs (P). Buried 2001-01-30 in Åmål (P).",
+                        "Source_Images": "SRC-BK-2010-001"
+                },
+                {
+                        "ID": "W-ASTRID-1921",
+                        "Name": "Astrid Linnea Nilsson",
+                        "Birth": "1921-09-27",
+                        "Death": "2007-03-10",
+                        "Generation": 11,
+                        "Father_ID": null,
+                        "Mother_ID": null,
+                        "Transcript": "Astrid Linnea Nilsson — b. 1921-09-27, 1:5, Sand, Östby, Åmåls landsförs — d. 2007-03-10",
+                        "Source_Images": "SRC-BK-2010-001"
+                },
+                {
+                        "ID": "W-GUNNEL-1952",
+                        "Name": "Gunnel Marianne Eriksson",
+                        "Birth": "1952-02-20",
+                        "Death": null,
+                        "Generation": 10,
+                        "Father_ID": "W-GUSTAV-1913",
+                        "Mother_ID": null,
+                        "Transcript": "Gunnel Marianne Eriksson — b. 1952-02-20, 1:5, Sand, Östby, Åmåls landsförs — Gunnel Marianne Eriksson. Born 1952-02-20 in 1:5, Sand, Östby, Åmåls landsförs (P). tel. 0046-532-44150 mobil 0706 420 373 adress: Östby Sand 210 66291 AMAL SWEDEN e-mail: bosse.oberg@telia.com",
+                        "Source_Images": "SRC-BK-2010-001"
+                },
+                {
+                        "ID": "W-BO-1950",
+                        "Name": "Bo, Harry Öberg",
+                        "Birth": "1950-08-19",
+                        "Death": null,
+                        "Generation": 11,
+                        "Father_ID": null,
+                        "Mother_ID": null,
+                        "Transcript": "Bo, Harry Öberg — b. 1950-08-19, Åmål",
+                        "Source_Images": "SRC-BK-2010-001"
+                },
+                {
+                        "ID": "W-BO-1977",
+                        "Name": "Bo, Anders Öberg",
+                        "Birth": "1977-03-26",
+                        "Death": null,
+                        "Generation": 11,
+                        "Father_ID": "W-GUNNEL-1952",
+                        "Mother_ID": null,
+                        "Transcript": "Bo, Anders Öberg — b. 1977-03-26, Åmål",
+                        "Source_Images": "SRC-BK-2010-001"
+                },
+                {
+                        "ID": "W-JESSIC-1982",
+                        "Name": "Jessica Dagerbrant",
+                        "Birth": "1982-09-17",
+                        "Death": null,
+                        "Generation": 11,
+                        "Father_ID": null,
+                        "Mother_ID": null,
+                        "Transcript": "Jessica Dagerbrant — b. 1982-09-17",
+                        "Source_Images": "SRC-BK-2010-001"
+                },
+                {
+                        "ID": "W-HILDUR-1916",
+                        "Name": "Hildur Maria Eriksson",
+                        "Birth": "1916-01-23",
+                        "Death": "2009-06-08",
+                        "Generation": 9,
+                        "Father_ID": "W-GUSTAV-1874",
+                        "Mother_ID": null,
+                        "Transcript": "Hildur Maria Eriksson — b. 1916-01-23, Århult, Åmåls landsförs — d. 2009-06-08, Åmål — Hildur Maria Eriksson. Born 1916-01-23 in Århult, Åmåls landsförs (P). Died 2009-06-08 in Åmål (P). Buried 2009-06-26 in Åmål (P).",
+                        "Source_Images": "SRC-BK-2010-001"
+                },
+                {
+                        "ID": "W-ANDERS-1920",
+                        "Name": "Anders Erik Harald Ericsson",
+                        "Birth": "1920-01-05",
+                        "Death": "1990-03-02",
+                        "Generation": 11,
+                        "Father_ID": null,
+                        "Mother_ID": null,
+                        "Transcript": "Anders Erik Harald Ericsson — b. 1920-01-05 — d. 1990-03-02",
+                        "Source_Images": "SRC-BK-2010-001"
+                },
+                {
+                        "ID": "W-INGELA-1945",
+                        "Name": "Ingela Lilian Margareta Ericsson",
+                        "Birth": "1945-07-05",
+                        "Death": null,
+                        "Generation": 10,
+                        "Father_ID": "W-HILDUR-1916",
+                        "Mother_ID": null,
+                        "Transcript": "Ingela Lilian Margareta Ericsson — b. 1945-07-05 — Ingela Lilian Margareta Ericsson. Born 1945-07-05 in Vara (R). Tagit namet Haraldsdotter",
+                        "Source_Images": "SRC-BK-2010-001"
+                },
+                {
+                        "ID": "W-HANS-1943",
+                        "Name": "Hans Roland Nilsson",
+                        "Birth": "1943-08-09",
+                        "Death": null,
+                        "Generation": 11,
+                        "Father_ID": null,
+                        "Mother_ID": null,
+                        "Transcript": "Hans Roland Nilsson — b. 1943-08-09, Laxarby",
+                        "Source_Images": "SRC-BK-2010-001"
+                },
+                {
+                        "ID": "W-HELENA-1968",
+                        "Name": "Helena Maria Nilsson",
+                        "Birth": "1968-05-08",
+                        "Death": null,
+                        "Generation": 11,
+                        "Father_ID": "W-INGELA-1945",
+                        "Mother_ID": null,
+                        "Transcript": "Helena Maria Nilsson — b. 1968-05-08, Åmål",
+                        "Source_Images": "SRC-BK-2010-001"
+                },
+                {
+                        "ID": "W-MATILD-1971",
+                        "Name": "Matilda Nilsson",
+                        "Birth": "1971-08-05",
+                        "Death": null,
+                        "Generation": 11,
+                        "Father_ID": "W-INGELA-1945",
+                        "Mother_ID": null,
+                        "Transcript": "Matilda Nilsson — b. 1971-08-05",
+                        "Source_Images": "SRC-BK-2010-001"
+                },
+                {
+                        "ID": "W-LENI-1950",
+                        "Name": "Leni Ann Christina Ericsson",
+                        "Birth": "1950-09-28",
+                        "Death": null,
+                        "Generation": 10,
+                        "Father_ID": "W-HILDUR-1916",
+                        "Mother_ID": null,
+                        "Transcript": "Leni Ann Christina Ericsson — b. 1950-09-28, Åmåls landsförs",
+                        "Source_Images": "SRC-BK-2010-001"
+                },
+                {
+                        "ID": "W-HANS-1951",
+                        "Name": "Hans Uno Jörgen Hedeås",
+                        "Birth": "1951-08-25",
+                        "Death": null,
+                        "Generation": 11,
+                        "Father_ID": null,
+                        "Mother_ID": null,
+                        "Transcript": "Hans Uno Jörgen Hedeås — b. 1951-08-25, Skara",
+                        "Source_Images": "SRC-BK-2010-001"
+                },
+                {
+                        "ID": "W-JAN-1958",
+                        "Name": "Jan Anders Christer Ericsson",
+                        "Birth": "1958-08-20",
+                        "Death": null,
+                        "Generation": 10,
+                        "Father_ID": "W-HILDUR-1916",
+                        "Mother_ID": null,
+                        "Transcript": "Jan Anders Christer Ericsson — b. 1958-08-20, Åmåls landsförs",
+                        "Source_Images": "SRC-BK-2010-001"
+                },
+                {
+                        "ID": "W-KATARI-1963",
+                        "Name": "Katarina Margurite Olsson",
+                        "Birth": "1963-09-27",
+                        "Death": null,
+                        "Generation": 11,
+                        "Father_ID": null,
+                        "Mother_ID": null,
+                        "Transcript": "Katarina Margurite Olsson — b. 1963-09-27, Åmål",
+                        "Source_Images": "SRC-BK-2010-001"
+                },
+                {
+                        "ID": "W-ERIK-1918",
+                        "Name": "Erik Gunnar Eriksson",
+                        "Birth": "1918-07-24",
+                        "Death": "1997-01-20",
+                        "Generation": 9,
+                        "Father_ID": "W-GUSTAV-1874",
+                        "Mother_ID": null,
+                        "Transcript": "Erik Gunnar Eriksson — b. 1918-07-24, Århult, Åmåls landsförs — d. 1997-01-20, Lånsbol, Mo — Erik Gunnar Eriksson. Born 1918-07-24 in Århult, Åmåls landsförs (P) (Sveriges Dödbok 2). Died 1997-01-20 in Lånsbol, Mo (P) (Sveriges Dödbok 2). Buried 1997-02-04 in Mo/P.",
+                        "Source_Images": "SRC-BK-2010-001"
+                },
+                {
+                        "ID": "W-ELIN-1928",
+                        "Name": "Elin Alvilda Lennartsson",
+                        "Birth": "1928-11-21",
+                        "Death": null,
+                        "Generation": 11,
+                        "Father_ID": null,
+                        "Mother_ID": null,
+                        "Transcript": "Elin Alvilda Lennartsson — b. 1928-11-21, Lånsbol, Mo",
+                        "Source_Images": "SRC-BK-2010-001"
+                },
+                {
+                        "ID": "W-INGER-1967",
+                        "Name": "Inger Camilla Eriksson",
+                        "Birth": "1967-10-18",
+                        "Death": null,
+                        "Generation": 10,
+                        "Father_ID": "W-ERIK-1918",
+                        "Mother_ID": null,
+                        "Transcript": "Inger Camilla Eriksson — b. 1967-10-18, Lånsbol, Mo",
+                        "Source_Images": "SRC-BK-2010-001"
+                },
+                {
+                        "ID": "W-JANERI-1964",
+                        "Name": "Jan-Erik Arne Danielsson Swanelius",
+                        "Birth": "1964-05-20",
+                        "Death": null,
+                        "Generation": 11,
+                        "Father_ID": null,
+                        "Mother_ID": null,
+                        "Transcript": "Jan-Erik Arne Danielsson Swanelius — b. 1964-05-20",
+                        "Source_Images": "SRC-BK-2010-001"
+                },
+                {
+                        "ID": "W-JOHN-1920",
+                        "Name": "John Arne Eriksson",
+                        "Birth": "1920-07-08",
+                        "Death": "1994-01-14",
+                        "Generation": 9,
+                        "Father_ID": "W-GUSTAV-1874",
+                        "Mother_ID": null,
+                        "Transcript": "John Arne Eriksson — b. 1920-07-08, Århult, Åmåls landsförs — d. 1994-01-14, Åmål — John Arne Eriksson. Born 1920-07-08 in Århult, Åmåls landsförs (P). Died 1994-01-14 in Åmål (P). Buried 1994-01-26 in Åmål/P.",
+                        "Source_Images": "SRC-BK-2010-001"
+                },
+                {
+                        "ID": "W-ANNAST-1930",
+                        "Name": "Anna-Stina Ragnhild Lennartsson",
+                        "Birth": "1930-10-01",
+                        "Death": null,
+                        "Generation": 11,
+                        "Father_ID": null,
+                        "Mother_ID": null,
+                        "Transcript": "Anna-Stina Ragnhild Lennartsson — b. 1930-10-01, Lånsbol, Mo",
+                        "Source_Images": "SRC-BK-2010-001"
+                },
+                {
+                        "ID": "W-JOHN-1963",
+                        "Name": "John Olof Eriksson",
+                        "Birth": "1963-10-08",
+                        "Death": null,
+                        "Generation": 10,
+                        "Father_ID": "W-JOHN-1920",
+                        "Mother_ID": null,
+                        "Transcript": "John Olof Eriksson — b. 1963-10-08, Åmål",
+                        "Source_Images": "SRC-BK-2010-001"
+                },
+                {
+                        "ID": "W-BRITT-1967",
+                        "Name": "Britt Anne Maria Nell",
+                        "Birth": "1967-05-18",
+                        "Death": null,
+                        "Generation": 11,
+                        "Father_ID": null,
+                        "Mother_ID": null,
+                        "Transcript": "Britt Anne Maria Nell — b. 1967-05-18, Åmål",
+                        "Source_Images": "SRC-BK-2010-001"
+                },
+                {
+                        "ID": "W-ANDERS-1966",
+                        "Name": "Anders Conny Eriksson",
+                        "Birth": "1966-01-31",
+                        "Death": null,
+                        "Generation": 10,
+                        "Father_ID": "W-JOHN-1920",
+                        "Mother_ID": null,
+                        "Transcript": "Anders Conny Eriksson — b. 1966-01-31, Åmål",
+                        "Source_Images": "SRC-BK-2010-001"
+                },
+                {
+                        "ID": "W-ELSE-1964",
+                        "Name": "Else Nomi Maria Kühne",
+                        "Birth": "1964-09-17",
+                        "Death": null,
+                        "Generation": 11,
+                        "Father_ID": null,
+                        "Mother_ID": null,
+                        "Transcript": "Else Nomi Maria Kühne — b. 1964-09-17, Ärtemark",
+                        "Source_Images": "SRC-BK-2010-001"
+                },
+                {
+                        "ID": "W-RUTH-1922",
+                        "Name": "Ruth Ingegärd Eriksson",
+                        "Birth": "1922-07-06",
+                        "Death": "1983-04-09",
+                        "Generation": 9,
+                        "Father_ID": "W-GUSTAV-1874",
+                        "Mother_ID": null,
+                        "Transcript": "Ruth Ingegärd Eriksson — b. 1922-07-06, Århult, Åmåls landsförs — d. 1983-04-09, Åmål — Ruth Ingegärd Eriksson. Born 1922-07-06 in Århult, Åmåls landsförs (P). Died 1983-04-09 in Åmål (P).",
+                        "Source_Images": "SRC-BK-2010-001"
+                },
+                {
+                        "ID": "W-KARL-1918",
+                        "Name": "Karl Torsten Helge Vivat",
+                        "Birth": "1918-02-22",
+                        "Death": "2004-02-12",
+                        "Generation": 11,
+                        "Father_ID": null,
+                        "Mother_ID": null,
+                        "Transcript": "Karl Torsten Helge Vivat — b. 1918-02-22, Mo — d. 2004-02-12",
+                        "Source_Images": "SRC-BK-2010-001"
+                },
+                {
+                        "ID": "W-LEIF-1952",
+                        "Name": "Leif Gunnar Vivat",
+                        "Birth": "1952-10-25",
+                        "Death": null,
+                        "Generation": 10,
+                        "Father_ID": "W-RUTH-1922",
+                        "Mother_ID": null,
+                        "Transcript": "Leif Gunnar Vivat — b. 1952-10-25, Åmål",
+                        "Source_Images": "SRC-BK-2010-001"
+                },
+                {
+                        "ID": "W-HELENA-1962",
+                        "Name": "Helena Jungermann",
+                        "Birth": "1962-06-27",
+                        "Death": null,
+                        "Generation": 11,
+                        "Father_ID": null,
+                        "Mother_ID": null,
+                        "Transcript": "Helena Jungermann — b. 1962-06-27",
+                        "Source_Images": "SRC-BK-2010-001"
+                },
+                {
+                        "ID": "W-INGRID-1956",
+                        "Name": "Ingrid Birgitta Vivat",
+                        "Birth": "1956-03-19",
+                        "Death": null,
+                        "Generation": 10,
+                        "Father_ID": "W-RUTH-1922",
+                        "Mother_ID": null,
+                        "Transcript": "Ingrid Birgitta Vivat — b. 1956-03-19, Åmål",
+                        "Source_Images": "SRC-BK-2010-001"
+                },
+                {
+                        "ID": "W-KARL-1954",
+                        "Name": "Karl Anders Torben Rundqvist",
+                        "Birth": "1954-10-04",
+                        "Death": null,
+                        "Generation": 11,
+                        "Father_ID": null,
+                        "Mother_ID": null,
+                        "Transcript": "Karl Anders Torben Rundqvist — b. 1954-10-04, Holm",
+                        "Source_Images": "SRC-BK-2010-001"
+                },
+                {
+                        "ID": "W-WALFRI-1877",
+                        "Name": "Walfrid Eriksson",
+                        "Birth": "1877-04-01",
+                        "Death": "1947-03-30",
+                        "Generation": 8,
+                        "Father_ID": "W-ERIK-1835",
+                        "Mother_ID": null,
+                        "Transcript": "Walfrid Eriksson — b. 1877-04-01, Århult, Åmåls landsförs — d. 1947-03-30, Åmål — Walfrid Eriksson. Born 1877-04-01 in Århult, Åmåls landsförs (P). Died 1947-03-30 in Åmål (P).",
+                        "Source_Images": "SRC-BK-2010-001"
+                },
+                {
+                        "ID": "W-OLGA-1891",
+                        "Name": "Olga Elisabet Andersson",
+                        "Birth": "1891-03-24",
+                        "Death": "1972-06-28",
+                        "Generation": 11,
+                        "Father_ID": null,
+                        "Mother_ID": null,
+                        "Transcript": "Olga Elisabet Andersson — b. 1891-03-24, Åmåls landsförs — d. 1972-06-28",
+                        "Source_Images": "SRC-BK-2010-001"
+                },
+                {
+                        "ID": "W-EDIT-1915",
+                        "Name": "Edit Linnéa Eriksson",
+                        "Birth": "1915-10-17",
+                        "Death": null,
+                        "Generation": 9,
+                        "Father_ID": "W-WALFRI-1877",
+                        "Mother_ID": null,
+                        "Transcript": "Edit Linnéa Eriksson — b. 1915-10-17, Åmål",
+                        "Source_Images": "SRC-BK-2010-001"
+                },
+                {
+                        "ID": "W-BROR-1904",
+                        "Name": "Bror Evald Wieweg",
+                        "Birth": "1904-12-18",
+                        "Death": "1977-01-06",
+                        "Generation": 11,
+                        "Father_ID": null,
+                        "Mother_ID": null,
+                        "Transcript": "Bror Evald Wieweg — b. 1904-12-18, Åmål — d. 1977-01-06",
+                        "Source_Images": "SRC-BK-2010-001"
+                },
+                {
+                        "ID": "W-ELSA-1916-2",
+                        "Name": "Elsa Maria Eriksson",
+                        "Birth": "1916-11-02",
+                        "Death": "1994-10-30",
+                        "Generation": 9,
+                        "Father_ID": "W-WALFRI-1877",
+                        "Mother_ID": null,
+                        "Transcript": "Elsa Maria Eriksson — b. 1916-11-02, Åmål — d. 1994-10-30, Åmål",
+                        "Source_Images": "SRC-BK-2010-001"
+                },
+                {
+                        "ID": "W-ERIK-1911",
+                        "Name": "Erik Vilhelm Örn",
+                        "Birth": "1911-12-31",
+                        "Death": "1967-11-14",
+                        "Generation": 11,
+                        "Father_ID": null,
+                        "Mother_ID": null,
+                        "Transcript": "Erik Vilhelm Örn — b. 1911-12-31, Åmål — d. 1967-11-14",
+                        "Source_Images": "SRC-BK-2010-001"
+                },
+                {
+                        "ID": "W-BRITTI-1949",
+                        "Name": "Britt-Inger Elisabeth Örn",
+                        "Birth": "1949-04-10",
+                        "Death": null,
+                        "Generation": 10,
+                        "Father_ID": "W-ELSA-1916-2",
+                        "Mother_ID": null,
+                        "Transcript": "Britt-Inger Elisabeth Örn — b. 1949-04-10, Åmål",
+                        "Source_Images": "SRC-BK-2010-001"
+                },
+                {
+                        "ID": "W-BO-1945",
+                        "Name": "Bo Christer Axelsson",
+                        "Birth": "1945-06-12",
+                        "Death": null,
+                        "Generation": 11,
+                        "Father_ID": null,
+                        "Mother_ID": null,
+                        "Transcript": "Bo Christer Axelsson — b. 1945-06-12, Åmål",
+                        "Source_Images": "SRC-BK-2010-001"
+                },
+                {
+                        "ID": "W-KRISTI-1881",
+                        "Name": "Kristina Eriksdotter",
+                        "Birth": "1881-06-16",
+                        "Death": "1967-12-24",
+                        "Generation": 8,
+                        "Father_ID": "W-ERIK-1835",
+                        "Mother_ID": null,
+                        "Transcript": "Kristina Eriksdotter — b. 1881-06-16, Århult, Åmåls landsförs — d. 1967-12-24, Åmål — Kristina Eriksdotter. Born 1881-06-16 in Århult, Åmåls landsförs (P). Moved 1912 from Åmål (P) to USA. upgett address till brodern Fredrik Wennerlund, 114N 53ave West Duluth Wiscosin. Died 1967-12-24 ...",
+                        "Source_Images": "SRC-BK-2010-001"
+                },
+                {
+                        "ID": "W-ALFRED-1877",
+                        "Name": "Alfred Skarin",
+                        "Birth": "1877-08-13",
+                        "Death": "1951-10-11",
+                        "Generation": 11,
+                        "Father_ID": null,
+                        "Mother_ID": null,
+                        "Transcript": "Alfred Skarin — b. 1877-08-13, Sverige — d. 1951-10-11",
+                        "Source_Images": "SRC-BK-2010-001"
+                },
+                {
+                        "ID": "W-FREDRI-1883",
+                        "Name": "Fredrik (Frank) Eriksson (Wennerlund)",
+                        "Birth": "1883-03-05",
+                        "Death": null,
+                        "Generation": 8,
+                        "Father_ID": "W-ERIK-1835",
+                        "Mother_ID": null,
+                        "Transcript": "Fredrik (Frank) Eriksson (Wennerlund) — b. 1883-03-05, Århult, Åmåls landsförs — (Born Eriksson; changed surname to Wennerlund upon US immigration) — Fredrik (Frank) Eriksson (Wennerlund). Born 1883-03-05 in Århult, Åmåls landsförs (P). Moved 1900 from Århult, Åmåls landsförs (P) to USA. Byter efternamn till Wennerlund i USA Bor 1912 114 N 53 ave. ...",
+                        "Source_Images": "SRC-BK-2010-001"
+                },
+                {
+                        "ID": "W-JULIA-1912",
+                        "Name": "Julia ?",
+                        "Birth": "1912-01-04",
+                        "Death": "1915-02-17",
+                        "Generation": 11,
+                        "Father_ID": null,
+                        "Mother_ID": null,
+                        "Transcript": "Julia ? — b. 1912-01-04, Colorado, USA — d. 1915-02-17",
+                        "Source_Images": "SRC-BK-2010-001"
+                },
+                {
+                        "ID": "W-IRWING-1912",
+                        "Name": "Irwing Frank Wennerlund",
+                        "Birth": "1912-01-04",
+                        "Death": "1987-10-31",
+                        "Generation": 9,
+                        "Father_ID": "W-FREDRI-1883",
+                        "Mother_ID": null,
+                        "Transcript": "Irwing Frank Wennerlund — b. 1912-01-04, Colorado, USA — d. 1987-10-31, Colorado, USA — Irwing Frank Wennerlund. Born 1912-01-04 in Colorado, USA. SSN 470-07-3536 Died 1987-10-31 in Colorado, USA. Spouse first name: Pauline (per 1974 Bennett-Christy family book, IMG_0913v — source lists ...",
+                        "Source_Images": "SRC-BK-2010-001"
+                },
+                {
+                        "ID": "W-DAVID-1938",
+                        "Name": "David Lee Wennerlund",
+                        "Birth": "1938-01-27",
+                        "Death": null,
+                        "Generation": 10,
+                        "Father_ID": "W-IRWING-1912",
+                        "Mother_ID": "W-PAULIN-XXXX",
+                        "Transcript": "David Lee Wennerlund — b. 1938-01-27, Pueblo, Colorado, USA — David Lee Wennerlund, b 1/27/38, Pueblo, Colorado. Son of Irwing Frank (I.F.) and Pauline Wennerlund, Pueblo. Insurance & Finance. Married Victoria Hammond 4/7/62, Los Angeles, Westchester Methodist C...",
+                        "Source_Images": "SRC-BK-2010-001"
+                },
+                {
+                        "ID": "W-JUDY-1941",
+                        "Name": "Judy Wennerlund",
+                        "Birth": "1941-01-01",
+                        "Death": null,
+                        "Generation": 10,
+                        "Father_ID": "W-IRWING-1912",
+                        "Mother_ID": null,
+                        "Transcript": "Judy Wennerlund — b. 1941-01-01, Colorado, USA",
+                        "Source_Images": "SRC-BK-2010-001"
+                },
+                {
+                        "ID": "W-ANDERS-1871",
+                        "Name": "Anders, August Eriksson (Wennerlund)",
+                        "Birth": "1871-07-09",
+                        "Death": "1918-05-26",
+                        "Generation": 8,
+                        "Father_ID": "W-ERIK-1835",
+                        "Mother_ID": null,
+                        "Transcript": "Anders, August Eriksson (Wennerlund) — b. 1871-07-09 — d. 1918-05-26 — Anders, August Eriksson (Wennerlund). Born 1871-07-09 in Århult, Åmåls landsförs (P). Lived Dräng hos A H Nilsson 1890 in Rösevål, Åmåls landsförs (P). Moved 1893 from Århult, Åmåls landsförs (P) to U",
+                        "Source_Images": "SRC-BK-2010-001"
+                },
+                {
+                        "ID": "W-MATILD-1879",
+                        "Name": "Matilda Eriksdotter",
+                        "Birth": "1879-04-04",
+                        "Death": "1966-03-20",
+                        "Generation": 8,
+                        "Father_ID": "W-ERIK-1835",
+                        "Mother_ID": null,
+                        "Transcript": "Matilda Eriksdotter — b. 1879-04-04 — d. 1966-03-20 — Matilda Eriksdotter. Born 1879-04-04 in Århult, Åmåls landsförs (P). Died 1966-03-20 in Århult, Åmåls landsförs (P) (Boupptekning).",
+                        "Source_Images": "SRC-BK-2010-001"
+                },
+                {
+                        "ID": "W-MARIA-1885",
+                        "Name": "Maria Eriksdotter",
+                        "Birth": "1885-03-06",
+                        "Death": "1886-03-25",
+                        "Generation": 8,
+                        "Father_ID": "W-ERIK-1835",
+                        "Mother_ID": null,
+                        "Transcript": "Maria Eriksdotter — b. 1885-03-06 — d. 1886-03-25 — Maria Eriksdotter. Born 1885-03-06 in Århult, Åmåls landsförs (P). Died 1886-03-25 in Århult, Åmåls landsförs (P).",
+                        "Source_Images": "SRC-BK-2010-001"
+                },
+                {
+                        "ID": "W-KARL-1887",
+                        "Name": "Karl Eriksson (Wennerlund)",
+                        "Birth": "1887-05-19",
+                        "Death": "1962-05-24",
+                        "Generation": 8,
+                        "Father_ID": "W-ERIK-1835",
+                        "Mother_ID": null,
+                        "Transcript": "Karl Eriksson (Wennerlund) — b. 1887-05-19 — d. 1962-05-24 — Karl Eriksson (Wennerlund). Born 1887-05-19 in Århult, Åmåls landsförs (P). Moved 1912 from Århult, Åmåls landsförs (P) to USA. Byter namn till Wennerlund i USA Died 1962-05-24 in Åmål (P).",
+                        "Source_Images": "SRC-BK-2010-001"
+                },
+                {
+                        "ID": "W-HILDUR-1896",
+                        "Name": "Hildur Maria Wennerlund",
+                        "Birth": "1896-12-21",
+                        "Death": "1989-06-03",
+                        "Generation": 9,
+                        "Father_ID": "W-JOHAN-1869",
+                        "Mother_ID": null,
+                        "Transcript": "Hildur Maria Wennerlund — b. 1896-12-21 — d. 1989-06-03 — Hildur Maria Wennerlund. Born 1896-12-21 in Cloquet, MN, USA. Died 1989-06-03 in Stanislaus, CA, USA.",
+                        "Source_Images": "SRC-BK-2010-001"
+                },
+                {
+                        "ID": "W-DAVID-1973",
+                        "Name": "David Wayne Hallock",
+                        "Birth": "1973-06-03",
+                        "Death": null,
+                        "Generation": 11,
+                        "Father_ID": "W-MARY-1943",
+                        "Mother_ID": null,
+                        "Transcript": "David Wayne Hallock — b. 1973-06-03 — David Wayne Hallock. Born 1973-06-03 in Peoria Conty, IL, USA.",
+                        "Source_Images": "SRC-BK-2010-001"
+                },
+                {
+                        "ID": "W-RYAN-2004",
+                        "Name": "Ryan Walter Howard",
+                        "Birth": "2004-04-02",
+                        "Death": null,
+                        "Generation": 12,
+                        "Father_ID": "W-JULIE-1976",
+                        "Mother_ID": null,
+                        "Transcript": "Ryan Walter Howard — b. 2004-04-02 — Ryan Walter Howard. Born 2004-04-02 in Aurora, Kane Conty, IL. USA.",
+                        "Source_Images": "SRC-BK-2010-001"
+                },
+                {
+                        "ID": "W-SARAH-1995",
+                        "Name": "Sarah Johanna Meyer",
+                        "Birth": "1995-02-16",
+                        "Death": null,
+                        "Generation": 12,
+                        "Father_ID": "W-CINDY-1964",
+                        "Mother_ID": null,
+                        "Transcript": "Sarah Johanna Meyer — b. 1995-02-16 — Sarah Johanna Meyer. Born 1995-02-16 in San Diego, CA, USA.",
+                        "Source_Images": "SRC-BK-2010-001"
+                },
+                {
+                        "ID": "W-STEPHA-1995",
+                        "Name": "Stephanie Lyn Meyer",
+                        "Birth": "1995-02-16",
+                        "Death": null,
+                        "Generation": 12,
+                        "Father_ID": "W-CINDY-1964",
+                        "Mother_ID": null,
+                        "Transcript": "Stephanie Lyn Meyer — b. 1995-02-16 — Stephanie Lyn Meyer. Born 1995-02-16 in San Diego, CA, USA.",
+                        "Source_Images": "SRC-BK-2010-001"
+                },
+                {
+                        "ID": "W-SAMANT-1996",
+                        "Name": "Samanta Ann Meyer",
+                        "Birth": "1996-10-15",
+                        "Death": null,
+                        "Generation": 12,
+                        "Father_ID": "W-CINDY-1964",
+                        "Mother_ID": null,
+                        "Transcript": "Samanta Ann Meyer — b. 1996-10-15 — Samanta Ann Meyer. Born 1996-10-15 in San Diego, CA, USA.",
+                        "Source_Images": "SRC-BK-2010-001"
+                },
+                {
+                        "ID": "W-JACOB-1997",
+                        "Name": "Jacob Hanson",
+                        "Birth": "1997-02-25",
+                        "Death": null,
+                        "Generation": 12,
+                        "Father_ID": "W-JENNIF-1970",
+                        "Mother_ID": null,
+                        "Transcript": "Jacob Hanson — b. 1997-02-25 — Jacob Hanson. Born 1997-02-25 in San Diego, CA, USA.",
+                        "Source_Images": "SRC-BK-2010-001"
+                },
+                {
+                        "ID": "W-RACHEL-1998",
+                        "Name": "Rachel Kay Hanson",
+                        "Birth": "1998-10-08",
+                        "Death": null,
+                        "Generation": 12,
+                        "Father_ID": "W-JENNIF-1970",
+                        "Mother_ID": null,
+                        "Transcript": "Rachel Kay Hanson — b. 1998-10-08 — Rachel Kay Hanson. Born 1998-10-08 in San Diego, CA, USA.",
+                        "Source_Images": "SRC-BK-2010-001"
+                },
+                {
+                        "ID": "W-KENT-1974",
+                        "Name": "Kent, Ronny Eriksson",
+                        "Birth": "1974-04-28",
+                        "Death": null,
+                        "Generation": 11,
+                        "Father_ID": "W-ALF-1950",
+                        "Mother_ID": null,
+                        "Transcript": "Kent, Ronny Eriksson — b. 1974-04-28 — Kent, Ronny Eriksson. Born 1974-04-28 in Åmål (P).",
+                        "Source_Images": "SRC-BK-2010-001"
+                },
+                {
+                        "ID": "W-ANNELI-1976",
+                        "Name": "Annelie, Veronica Eriksson",
+                        "Birth": "1976-07-18",
+                        "Death": null,
+                        "Generation": 11,
+                        "Father_ID": "W-ALF-1950",
+                        "Mother_ID": null,
+                        "Transcript": "Annelie, Veronica Eriksson — b. 1976-07-18 — Annelie, Veronica Eriksson. Born 1976-07-18 in Åmål (P).",
+                        "Source_Images": "SRC-BK-2010-001"
+                },
+                {
+                        "ID": "W-TOMAS-1981",
+                        "Name": "Tomas, Ingemar Eriksson",
+                        "Birth": "1981-11-20",
+                        "Death": null,
+                        "Generation": 11,
+                        "Father_ID": "W-ALF-1950",
+                        "Mother_ID": null,
+                        "Transcript": "Tomas, Ingemar Eriksson — b. 1981-11-20 — Tomas, Ingemar Eriksson. Born 1981-11-20 in Åmål (P).",
+                        "Source_Images": "SRC-BK-2010-001"
+                },
+                {
+                        "ID": "W-ANNELI-1981",
+                        "Name": "Anneli Elisabet Öberg",
+                        "Birth": "1981-02-27",
+                        "Death": null,
+                        "Generation": 11,
+                        "Father_ID": "W-GUNNEL-1952",
+                        "Mother_ID": null,
+                        "Transcript": "Anneli Elisabet Öberg — b. 1981-02-27 — Anneli Elisabet Öberg. Born 1981-02-27 in Åmål (P). annelioberg@hotmail.com",
+                        "Source_Images": "SRC-BK-2010-001"
+                },
+                {
+                        "ID": "W-EMMA-1996",
+                        "Name": "Emma Thulin",
+                        "Birth": "1996-03-02",
+                        "Death": null,
+                        "Generation": 12,
+                        "Father_ID": "W-HELENA-1968",
+                        "Mother_ID": null,
+                        "Transcript": "Emma Thulin — b. 1996-03-02 — Emma Thulin. Born 1996-03-02.",
+                        "Source_Images": "SRC-BK-2010-001"
+                },
+                {
+                        "ID": "W-MOA-1999",
+                        "Name": "Moa Thulin",
+                        "Birth": "1999-07-08",
+                        "Death": null,
+                        "Generation": 12,
+                        "Father_ID": "W-HELENA-1968",
+                        "Mother_ID": null,
+                        "Transcript": "Moa Thulin — b. 1999-07-08 — Moa Thulin. Born 1999-07-08.",
+                        "Source_Images": "SRC-BK-2010-001"
+                },
+                {
+                        "ID": "W-SIMON-XXXX",
+                        "Name": "Simon Pettersson",
+                        "Birth": null,
+                        "Death": null,
+                        "Generation": 12,
+                        "Father_ID": "W-MATILD-1971",
+                        "Mother_ID": null,
+                        "Transcript": "Simon Pettersson",
+                        "Source_Images": "SRC-BK-2010-001"
+                },
+                {
+                        "ID": "W-ERIK-1973",
+                        "Name": "Erik Daniel Hedeås",
+                        "Birth": "1973-11-14",
+                        "Death": null,
+                        "Generation": 11,
+                        "Father_ID": "W-LENI-1950",
+                        "Mother_ID": null,
+                        "Transcript": "Erik Daniel Hedeås — b. 1973-11-14 — Erik Daniel Hedeås. Born 1973-11-14 in Skara.",
+                        "Source_Images": "SRC-BK-2010-001"
+                },
+                {
+                        "ID": "W-SARA-1976",
+                        "Name": "Sara Christina Hedås",
+                        "Birth": "1976-03-10",
+                        "Death": null,
+                        "Generation": 11,
+                        "Father_ID": "W-LENI-1950",
+                        "Mother_ID": null,
+                        "Transcript": "Sara Christina Hedås — b. 1976-03-10 — Sara Christina Hedås. Born 1976-03-10 in Ransäter (S).",
+                        "Source_Images": "SRC-BK-2010-001"
+                },
+                {
+                        "ID": "W-FREDRI-XXXX",
+                        "Name": "Fredrik Hedeås",
+                        "Birth": null,
+                        "Death": null,
+                        "Generation": 11,
+                        "Father_ID": "W-LENI-1950",
+                        "Mother_ID": null,
+                        "Transcript": "Fredrik Hedeås",
+                        "Source_Images": "SRC-BK-2010-001"
+                },
+                {
+                        "ID": "W-CHRIST-XXXX",
+                        "Name": "Christoffer Hedeås",
+                        "Birth": null,
+                        "Death": null,
+                        "Generation": 11,
+                        "Father_ID": "W-LENI-1950",
+                        "Mother_ID": null,
+                        "Transcript": "Christoffer Hedeås",
+                        "Source_Images": "SRC-BK-2010-001"
+                },
+                {
+                        "ID": "W-CAROLA-XXXX",
+                        "Name": "Carola Eriksson",
+                        "Birth": null,
+                        "Death": null,
+                        "Generation": 11,
+                        "Father_ID": "W-JAN-1958",
+                        "Mother_ID": null,
+                        "Transcript": "Carola Eriksson",
+                        "Source_Images": "SRC-BK-2010-001"
+                },
+                {
+                        "ID": "W-CAMILL-XXXX",
+                        "Name": "Camilla Eriksson",
+                        "Birth": null,
+                        "Death": null,
+                        "Generation": 11,
+                        "Father_ID": "W-JAN-1958",
+                        "Mother_ID": null,
+                        "Transcript": "Camilla Eriksson",
+                        "Source_Images": "SRC-BK-2010-001"
+                },
+                {
+                        "ID": "W-CHRIST-XXXX-2",
+                        "Name": "Christian Eriksson",
+                        "Birth": null,
+                        "Death": null,
+                        "Generation": 11,
+                        "Father_ID": "W-JAN-1958",
+                        "Mother_ID": null,
+                        "Transcript": "Christian Eriksson",
+                        "Source_Images": "SRC-BK-2010-001"
+                },
+                {
+                        "ID": "W-BORJE-1952",
+                        "Name": "Börje Lennart Eriksson",
+                        "Birth": "1952-03-24",
+                        "Death": null,
+                        "Generation": 10,
+                        "Father_ID": "W-ERIK-1918",
+                        "Mother_ID": null,
+                        "Transcript": "Börje Lennart Eriksson — b. 1952-03-24 — Börje Lennart Eriksson. Born 1952-03-24 in Lånsbol, Mo (P).",
+                        "Source_Images": "SRC-BK-2010-001"
+                },
+                {
+                        "ID": "W-AKE-1956",
+                        "Name": "Åke Gunnar Eriksson",
+                        "Birth": "1956-12-19",
+                        "Death": null,
+                        "Generation": 10,
+                        "Father_ID": "W-ERIK-1918",
+                        "Mother_ID": null,
+                        "Transcript": "Åke Gunnar Eriksson — b. 1956-12-19 — Åke Gunnar Eriksson. Born 1956-12-19 in Lånsbol, Mo (P).",
+                        "Source_Images": "SRC-BK-2010-001"
+                },
+                {
+                        "ID": "W-JOHANN-1998",
+                        "Name": "Johanna Swanelius",
+                        "Birth": "1998-09-06",
+                        "Death": null,
+                        "Generation": 11,
+                        "Father_ID": "W-INGER-1967",
+                        "Mother_ID": null,
+                        "Transcript": "Johanna Swanelius — b. 1998-09-06 — Johanna Swanelius. Born 1998-09-06.",
+                        "Source_Images": "SRC-BK-2010-001"
+                },
+                {
+                        "ID": "W-KARIN-2001",
+                        "Name": "Karin Swanelius",
+                        "Birth": "2001-08-20",
+                        "Death": null,
+                        "Generation": 11,
+                        "Father_ID": "W-INGER-1967",
+                        "Mother_ID": null,
+                        "Transcript": "Karin Swanelius — b. 2001-08-20 — Karin Swanelius. Born 2001-08-20.",
+                        "Source_Images": "SRC-BK-2010-001"
+                },
+                {
+                        "ID": "W-JULIA-1998",
+                        "Name": "Julia Eriksson",
+                        "Birth": "1998-07-29",
+                        "Death": null,
+                        "Generation": 11,
+                        "Father_ID": "W-JOHN-1963",
+                        "Mother_ID": null,
+                        "Transcript": "Julia Eriksson — b. 1998-07-29 — Julia Eriksson. Born 1998-07-29 in Åmål (P).",
+                        "Source_Images": "SRC-BK-2010-001"
+                },
+                {
+                        "ID": "W-JOHAN-1998",
+                        "Name": "Johan Eriksson",
+                        "Birth": "1998-07-29",
+                        "Death": null,
+                        "Generation": 11,
+                        "Father_ID": "W-JOHN-1963",
+                        "Mother_ID": null,
+                        "Transcript": "Johan Eriksson — b. 1998-07-29 — Johan Eriksson. Born 1998-07-29 in Åmål (P).",
+                        "Source_Images": "SRC-BK-2010-001"
+                },
+                {
+                        "ID": "W-FELICI-1995",
+                        "Name": "Felicia Eriksson",
+                        "Birth": "1995-07-27",
+                        "Death": null,
+                        "Generation": 11,
+                        "Father_ID": "W-ANDERS-1966",
+                        "Mother_ID": null,
+                        "Transcript": "Felicia Eriksson — b. 1995-07-27 — Felicia Eriksson. Born 1995-07-27 in Åmål (P).",
+                        "Source_Images": "SRC-BK-2010-001"
+                },
+                {
+                        "ID": "W-JOSEFI-2001",
+                        "Name": "Josefin Eriksson",
+                        "Birth": "2001-03-09",
+                        "Death": null,
+                        "Generation": 11,
+                        "Father_ID": "W-ANDERS-1966",
+                        "Mother_ID": null,
+                        "Transcript": "Josefin Eriksson — b. 2001-03-09 — Josefin Eriksson. Born 2001-03-09 in Åmål (P).",
+                        "Source_Images": "SRC-BK-2010-001"
+                },
+                {
+                        "ID": "W-MARK-1994",
+                        "Name": "Mark Jungermann",
+                        "Birth": "1994-04-20",
+                        "Death": null,
+                        "Generation": 11,
+                        "Father_ID": "W-LEIF-1952",
+                        "Mother_ID": null,
+                        "Transcript": "Mark Jungermann — b. 1994-04-20 — Mark Jungermann. Born 1994-04-20.",
+                        "Source_Images": "SRC-BK-2010-001"
+                },
+                {
+                        "ID": "W-JOEL-1998",
+                        "Name": "Joel Jungermann",
+                        "Birth": "1998-11-08",
+                        "Death": null,
+                        "Generation": 11,
+                        "Father_ID": "W-LEIF-1952",
+                        "Mother_ID": null,
+                        "Transcript": "Joel Jungermann — b. 1998-11-08 — Joel Jungermann. Born 1998-11-08.",
+                        "Source_Images": "SRC-BK-2010-001"
+                },
+                {
+                        "ID": "W-THOMAS-1979",
+                        "Name": "Thomas Karl Robert Vivatt",
+                        "Birth": "1979-12-16",
+                        "Death": null,
+                        "Generation": 11,
+                        "Father_ID": "W-INGRID-1956",
+                        "Mother_ID": null,
+                        "Transcript": "Thomas Karl Robert Vivatt — b. 1979-12-16 — Thomas Karl Robert Vivatt. Born 1979-12-16 in Åmål (P).",
+                        "Source_Images": "SRC-BK-2010-001"
+                },
+                {
+                        "ID": "W-MARTIN-XXXX",
+                        "Name": "Martina Vivatt",
+                        "Birth": null,
+                        "Death": null,
+                        "Generation": 11,
+                        "Father_ID": "W-INGRID-1956",
+                        "Mother_ID": null,
+                        "Transcript": "Martina Vivatt",
+                        "Source_Images": "SRC-BK-2010-001"
+                },
+                {
+                        "ID": "W-ISABEL-XXXX",
+                        "Name": "Isabel",
+                        "Birth": null,
+                        "Death": null,
+                        "Generation": 11,
+                        "Father_ID": "W-INGRID-1956",
+                        "Mother_ID": null,
+                        "Transcript": "Isabel",
+                        "Source_Images": "SRC-BK-2010-001"
+                },
+                {
+                        "ID": "W-MARTA-1914",
+                        "Name": "Märta Elisabet Eriksson",
+                        "Birth": "1914-04-23",
+                        "Death": "2000-06-11",
+                        "Generation": 9,
+                        "Father_ID": "W-WALFRI-1877",
+                        "Mother_ID": null,
+                        "Transcript": "Märta Elisabet Eriksson — b. 1914-04-23 — d. 2000-06-11 — Märta Elisabet Eriksson. Born 1914-04-23 in Åmål (P). Died 2000-06-11 in Åmål (P).",
+                        "Source_Images": "SRC-BK-2010-001"
+                },
+                {
+                        "ID": "W-HANS-1943-2",
+                        "Name": "Hans Lennart Wieweg",
+                        "Birth": "1943-03-14",
+                        "Death": null,
+                        "Generation": 10,
+                        "Father_ID": "W-EDIT-1915",
+                        "Mother_ID": null,
+                        "Transcript": "Hans Lennart Wieweg — b. 1943-03-14 — Hans Lennart Wieweg. Born 1943-03-14 in Åmål (P).",
+                        "Source_Images": "SRC-BK-2010-001"
+                },
+                {
+                        "ID": "W-HANS-1950",
+                        "Name": "Hans Erik Örn",
+                        "Birth": "1950-04-23",
+                        "Death": null,
+                        "Generation": 10,
+                        "Father_ID": "W-ELSA-1916-2",
+                        "Mother_ID": null,
+                        "Transcript": "Hans Erik Örn — b. 1950-04-23 — Hans Erik Örn. Born 1950-04-23 in Åmål (P).",
+                        "Source_Images": "SRC-BK-2010-001"
+                },
+                {
+                        "ID": "W-PERNIL-1970",
+                        "Name": "Pernilla Elisabeth Axelsson",
+                        "Birth": "1970-12-30",
+                        "Death": null,
+                        "Generation": 11,
+                        "Father_ID": "W-BRITTI-1949",
+                        "Mother_ID": null,
+                        "Transcript": "Pernilla Elisabeth Axelsson — b. 1970-12-30 — Pernilla Elisabeth Axelsson. Born 1970-12-30 in Åmål (P).",
+                        "Source_Images": "SRC-BK-2010-001"
+                },
+                {
+                        "ID": "W-BO-1973",
+                        "Name": "Bo Joakim Axelsson",
+                        "Birth": "1973-07-22",
+                        "Death": null,
+                        "Generation": 11,
+                        "Father_ID": "W-BRITTI-1949",
+                        "Mother_ID": null,
+                        "Transcript": "Bo Joakim Axelsson — b. 1973-07-22 — Bo Joakim Axelsson. Born 1973-07-22 in Åmål (P).",
+                        "Source_Images": "SRC-BK-2010-001"
+                },
+                {
+                        "ID": "W-KEITH-1968",
+                        "Name": "Keith Williamson",
+                        "Birth": "1968-03-02",
+                        "Death": null,
+                        "Generation": 11,
+                        "Father_ID": "W-JUDY-1941",
+                        "Mother_ID": null,
+                        "Transcript": "Keith Williamson — b. 1968-03-02 — Keith Williamson. Born 1968-03-02.",
+                        "Source_Images": "SRC-BK-2010-001"
+                },
+                {
+                        "ID": "W-BRIAN-1970",
+                        "Name": "Brian Williamson",
+                        "Birth": "1970-11-26",
+                        "Death": null,
+                        "Generation": 11,
+                        "Father_ID": "W-JUDY-1941",
+                        "Mother_ID": null,
+                        "Transcript": "Brian Williamson — b. 1970-11-26 — Brian Williamson. Born 1970-11-26.",
+                        "Source_Images": "SRC-BK-2010-001"
+                },
+                {
+                        "ID": "W-PAULIN-XXXX",
+                        "Name": "Pauline Wennerlund",
+                        "Birth": null,
+                        "Death": null,
+                        "Generation": 11,
+                        "Father_ID": null,
+                        "Mother_ID": null,
+                        "Transcript": "Pauline Wennerlund — (Maiden name unknown)",
+                        "Source_Images": "SRC-BK-2010-001"
+                },
+                {
+                        "ID": "S-BAGOT-1150",
+                        "Name": "Harvey Bagot",
+                        "Birth": "c.1150",
+                        "Death": null,
+                        "Generation": -14,
+                        "Father_ID": null,
+                        "Mother_ID": null,
+                        "Transcript": "[EVIDENCE: TRADITIONAL_LINEAGE] — Medieval Gentry Record — Appears in traditional Stratford family histories (Dugdale's Visitations of England, Burke's Landed Gentry). Not independently verified for this project.\\n\\nAncient Staffordshire family. Harvey Bagot married Millicent de Stafford. Their son Harvey took the Stratford surname.",
+                        "Source_Images": "stratford_master_lineage_v4.xlsx"
+                },
+                {
+                        "ID": "S-STAFFD-1150",
+                        "Name": "Millicent de Stafford",
+                        "Birth": "c.1150",
+                        "Death": null,
+                        "Generation": -14,
+                        "Father_ID": null,
+                        "Mother_ID": null,
+                        "Transcript": "[EVIDENCE: TRADITIONAL_LINEAGE] — Medieval Gentry Record — Appears in traditional Stratford family histories (Dugdale's Visitations of England, Burke's Landed Gentry). Not independently verified for this project.\\n\\nDaughter of the de Stafford family. Married Harvey Bagot; their son Harvey adopted the Stratford surname.",
+                        "Source_Images": "stratford_master_lineage_v4.xlsx"
+                },
+                {
+                        "ID": "S-STRAT-1175",
+                        "Name": "Harvey Bagot (Stratford)",
+                        "Birth": "c.1175",
+                        "Death": null,
+                        "Generation": -13,
+                        "Father_ID": "S-BAGOT-1150",
+                        "Mother_ID": "S-STAFFD-1150",
+                        "Transcript": "[EVIDENCE: TRADITIONAL_LINEAGE] — Medieval Gentry Record — Appears in traditional Stratford family histories (Dugdale's Visitations of England, Burke's Landed Gentry). Not independently verified for this project.\\n\\nSon of Harvey Bagot and Millicent de Stafford. Took the name Stratford. Progenitor of the Stratford gentry line.",
+                        "Source_Images": "stratford_master_lineage_v4.xlsx"
+                },
+                {
+                        "ID": "S-STRAT-1200",
+                        "Name": "Sir William Stratford of Broenshall",
+                        "Birth": "c.1200",
+                        "Death": null,
+                        "Generation": -12,
+                        "Father_ID": "S-STRAT-1175",
+                        "Mother_ID": null,
+                        "Transcript": "[EVIDENCE: TRADITIONAL_LINEAGE] — Medieval Gentry Record — Appears in traditional Stratford family histories (Dugdale's Visitations of England, Burke's Landed Gentry). Not independently verified for this project.\\n\\nSon of Harvey Bagot Stratford. Married Edith Vernon.",
+                        "Source_Images": "stratford_master_lineage_v4.xlsx"
+                },
+                {
+                        "ID": "S-VERNO-1200",
+                        "Name": "Edith Vernon",
+                        "Birth": "c.1200",
+                        "Death": null,
+                        "Generation": -12,
+                        "Father_ID": null,
+                        "Mother_ID": null,
+                        "Transcript": "[EVIDENCE: TRADITIONAL_LINEAGE] — Medieval Gentry Record — Appears in traditional Stratford family histories (Dugdale's Visitations of England, Burke's Landed Gentry). Not independently verified for this project.\\n\\nWife of Sir William Stratford of Broenshall.",
+                        "Source_Images": "stratford_master_lineage_v4.xlsx"
+                },
+                {
+                        "ID": "S-STRAT-1225",
+                        "Name": "Sir William Stratford of Sandon",
+                        "Birth": "c.1225",
+                        "Death": null,
+                        "Generation": -11,
+                        "Father_ID": "S-STRAT-1200",
+                        "Mother_ID": "S-VERNO-1200",
+                        "Transcript": "[EVIDENCE: TRADITIONAL_LINEAGE] — Medieval Gentry Record — Appears in traditional Stratford family histories (Dugdale's Visitations of England, Burke's Landed Gentry). Not independently verified for this project.\\n\\nSon of Sir William Stratford of Broenshall and Edith Vernon. Married Ermentrude Fitzwalkin.",
+                        "Source_Images": "stratford_master_lineage_v4.xlsx"
+                },
+                {
+                        "ID": "S-FITZWK-1225",
+                        "Name": "Ermentrude Fitzwalkin",
+                        "Birth": "c.1225",
+                        "Death": null,
+                        "Generation": -11,
+                        "Father_ID": null,
+                        "Mother_ID": null,
+                        "Transcript": "[EVIDENCE: TRADITIONAL_LINEAGE] — Medieval Gentry Record — Appears in traditional Stratford family histories (Dugdale's Visitations of England, Burke's Landed Gentry). Not independently verified for this project.\\n\\nWife of Sir William Stratford of Sandon.",
+                        "Source_Images": "stratford_master_lineage_v4.xlsx"
+                },
+                {
+                        "ID": "S-STRAT-1255",
+                        "Name": "Sir William Stratford of Broenshall",
+                        "Birth": "c.1255",
+                        "Death": null,
+                        "Generation": -10,
+                        "Father_ID": "S-STRAT-1225",
+                        "Mother_ID": "S-FITZWK-1225",
+                        "Transcript": "[EVIDENCE: TRADITIONAL_LINEAGE] — Medieval Gentry Record — Appears in traditional Stratford family histories (Dugdale's Visitations of England, Burke's Landed Gentry). Not independently verified for this project.\\n\\nSon of Sir William Stratford of Sandon and Ermentrude Fitzwalkin.",
+                        "Source_Images": "stratford_master_lineage_v4.xlsx"
+                },
+                {
+                        "ID": "S-STRAT-1280",
+                        "Name": "Sir John Stratford of Seale",
+                        "Birth": "c.1280",
+                        "Death": null,
+                        "Generation": -9,
+                        "Father_ID": "S-STRAT-1255",
+                        "Mother_ID": null,
+                        "Transcript": "[EVIDENCE: TRADITIONAL_LINEAGE] — Medieval Gentry Record — Appears in traditional Stratford family histories (Dugdale's Visitations of England, Burke's Landed Gentry). Not independently verified for this project.\\n\\nSon of Sir William Stratford of Broenshall. Married Katherine de Hastrang.",
+                        "Source_Images": "stratford_master_lineage_v4.xlsx"
+                },
+                {
+                        "ID": "S-HSTRNG-1280",
+                        "Name": "Katherine de Hastrang",
+                        "Birth": "c.1280",
+                        "Death": null,
+                        "Generation": -9,
+                        "Father_ID": null,
+                        "Mother_ID": null,
+                        "Transcript": "[EVIDENCE: TRADITIONAL_LINEAGE] — Medieval Gentry Record — Appears in traditional Stratford family histories (Dugdale's Visitations of England, Burke's Landed Gentry). Not independently verified for this project.\\n\\nWife of Sir John Stratford of Seale.",
+                        "Source_Images": "stratford_master_lineage_v4.xlsx"
+                },
+                {
+                        "ID": "S-STRAT-1310",
+                        "Name": "Sir Ralph Stratford of Gratton",
+                        "Birth": "c.1310",
+                        "Death": null,
+                        "Generation": -8,
+                        "Father_ID": "S-STRAT-1280",
+                        "Mother_ID": "S-HSTRNG-1280",
+                        "Transcript": "[EVIDENCE: TRADITIONAL_LINEAGE] — Medieval Gentry Record — Appears in traditional Stratford family histories (Dugdale's Visitations of England, Burke's Landed Gentry). Not independently verified for this project.\\n\\nSon of Sir John Stratford of Seale and Katherine de Hastrang. First of the Gratton Stratfords. Married Maud Hastrang.",
+                        "Source_Images": "stratford_master_lineage_v4.xlsx"
+                },
+                {
+                        "ID": "S-MAUD-1310",
+                        "Name": "Maud Hastrang",
+                        "Birth": "c.1310",
+                        "Death": null,
+                        "Generation": -8,
+                        "Father_ID": null,
+                        "Mother_ID": null,
+                        "Transcript": "[EVIDENCE: TRADITIONAL_LINEAGE] — Medieval Gentry Record — Appears in traditional Stratford family histories (Dugdale's Visitations of England, Burke's Landed Gentry). Not independently verified for this project.\\n\\nWife of Sir Ralph Stratford of Gratton.",
+                        "Source_Images": "stratford_master_lineage_v4.xlsx"
+                },
+                {
+                        "ID": "S-STRAT-1340",
+                        "Name": "Sir Humphrey Stratford of Gratton",
+                        "Birth": "c.1340",
+                        "Death": null,
+                        "Generation": -7,
+                        "Father_ID": "S-STRAT-1310",
+                        "Mother_ID": "S-MAUD-1310",
+                        "Transcript": "[EVIDENCE: TRADITIONAL_LINEAGE] — Medieval Gentry Record — Appears in traditional Stratford family histories (Dugdale's Visitations of England, Burke's Landed Gentry). Not independently verified for this project.\\n\\nSon of Sir Ralph Stratford of Gratton and Maud Hastrang. Married Elizabeth Bunder.",
+                        "Source_Images": "stratford_master_lineage_v4.xlsx"
+                },
+                {
+                        "ID": "S-BUNDE-1340",
+                        "Name": "Elizabeth Bunder",
+                        "Birth": "c.1340",
+                        "Death": null,
+                        "Generation": -7,
+                        "Father_ID": null,
+                        "Mother_ID": null,
+                        "Transcript": "[EVIDENCE: TRADITIONAL_LINEAGE] — Medieval Gentry Record — Appears in traditional Stratford family histories (Dugdale's Visitations of England, Burke's Landed Gentry). Not independently verified for this project.\\n\\nWife of Sir Humphrey Stratford of Gratton.",
+                        "Source_Images": "stratford_master_lineage_v4.xlsx"
+                },
+                {
+                        "ID": "S-STRAT-1370",
+                        "Name": "Sir Humphrey Stratford",
+                        "Birth": "c.1370",
+                        "Death": null,
+                        "Generation": -6,
+                        "Father_ID": "S-STRAT-1340",
+                        "Mother_ID": "S-BUNDE-1340",
+                        "Transcript": "[EVIDENCE: TRADITIONAL_LINEAGE] — Medieval Gentry Record — Appears in traditional Stratford family histories (Dugdale's Visitations of England, Burke's Landed Gentry). Not independently verified for this project.\\n\\nSon of Sir Humphrey Stratford of Gratton and Elizabeth Bunder. Married Eleanor Aylesbury.",
+                        "Source_Images": "stratford_master_lineage_v4.xlsx"
+                },
+                {
+                        "ID": "S-AYLSB-1370",
+                        "Name": "Eleanor Aylesbury",
+                        "Birth": "c.1370",
+                        "Death": null,
+                        "Generation": -6,
+                        "Father_ID": null,
+                        "Mother_ID": null,
+                        "Transcript": "[EVIDENCE: TRADITIONAL_LINEAGE] — Medieval Gentry Record — Appears in traditional Stratford family histories (Dugdale's Visitations of England, Burke's Landed Gentry). Not independently verified for this project.\\n\\nWife of Sir Humphrey Stratford.",
+                        "Source_Images": "stratford_master_lineage_v4.xlsx"
+                },
+                {
+                        "ID": "S-STRAT-1400",
+                        "Name": "Sir Humphrey Stratford of Blatherwick",
+                        "Birth": "c.1400",
+                        "Death": null,
+                        "Generation": -5,
+                        "Father_ID": "S-STRAT-1370",
+                        "Mother_ID": "S-AYLSB-1370",
+                        "Transcript": "[EVIDENCE: TRADITIONAL_LINEAGE] — Medieval Gentry Record — Appears in traditional Stratford family histories (Dugdale's Visitations of England, Burke's Landed Gentry). Not independently verified for this project.\\n\\nSon of Sir Humphrey Stratford and Eleanor Aylesbury. Married Margaret Frogg.",
+                        "Source_Images": "stratford_master_lineage_v4.xlsx"
+                },
+                {
+                        "ID": "S-FROGG-1400",
+                        "Name": "Margaret Frogg",
+                        "Birth": "c.1400",
+                        "Death": null,
+                        "Generation": -5,
+                        "Father_ID": null,
+                        "Mother_ID": null,
+                        "Transcript": "[EVIDENCE: TRADITIONAL_LINEAGE] — Medieval Gentry Record — Appears in traditional Stratford family histories (Dugdale's Visitations of England, Burke's Landed Gentry). Not independently verified for this project.\\n\\nWife of Sir Humphrey Stratford of Blatherwick.",
+                        "Source_Images": "stratford_master_lineage_v4.xlsx"
+                },
+                {
+                        "ID": "S-STRAT-1440",
+                        "Name": "Sir William Stratford of Chesby",
+                        "Birth": "c.1440",
+                        "Death": null,
+                        "Generation": -4,
+                        "Father_ID": "S-STRAT-1400",
+                        "Mother_ID": "S-FROGG-1400",
+                        "Transcript": "[EVIDENCE: TRADITIONAL_LINEAGE] — Medieval Gentry Record — Appears in traditional Stratford family histories (Dugdale's Visitations of England, Burke's Landed Gentry). Not independently verified for this project.\\n\\nSon of Sir Humphrey Stratford of Blatherwick and Margaret Frogg. Married Dorothy Stratford (a cousin).",
+                        "Source_Images": "stratford_master_lineage_v4.xlsx"
+                },
+                {
+                        "ID": "S-DORO-1440",
+                        "Name": "Dorothy Stratford",
+                        "Birth": "c.1440",
+                        "Death": null,
+                        "Generation": -4,
+                        "Father_ID": null,
+                        "Mother_ID": null,
+                        "Transcript": "[EVIDENCE: TRADITIONAL_LINEAGE] — Medieval Gentry Record — Appears in traditional Stratford family histories (Dugdale's Visitations of England, Burke's Landed Gentry). Not independently verified for this project.\\n\\nWife of Sir William Stratford of Chesby. Noted as a cousin marriage within the Stratford family.",
+                        "Source_Images": "stratford_master_lineage_v4.xlsx"
+                },
+                {
+                        "ID": "S-STRAT-1480",
+                        "Name": "Sir John Stratford of Market Harborough",
+                        "Birth": "c.1480",
+                        "Death": null,
+                        "Generation": -3,
+                        "Father_ID": "S-STRAT-1440",
+                        "Mother_ID": "S-DORO-1440",
+                        "Transcript": "[EVIDENCE: TRANSITIONAL_UNVERIFIED] — ESTIMATED LINK — This generation falls in the transitional zone between medieval English gentry records and confirmed colonial emigrants. The connection has not been verified with primary sources. Treat as provisional.\\n\\nSon of Sir William Stratford of Chesby and Dorothy Stratford. Married Millicent Gresham.\\n\\nNote: The link from the medieval English gentry (confirmed in Visitations of England) to the colonial New England Stratfords is the most uncertain part of this lineage. Research recommended.",
+                        "Source_Images": "stratford_master_lineage_v4.xlsx"
+                },
+                {
+                        "ID": "S-GRSHM-1480",
+                        "Name": "Millicent Gresham",
+                        "Birth": "c.1480",
+                        "Death": null,
+                        "Generation": -3,
+                        "Father_ID": null,
+                        "Mother_ID": null,
+                        "Transcript": "[EVIDENCE: TRANSITIONAL_UNVERIFIED] — ESTIMATED LINK — This generation falls in the transitional zone between medieval English gentry records and confirmed colonial emigrants. The connection has not been verified with primary sources. Treat as provisional.\\n\\nDaughter of Sir Thomas Gresham. Wife of Sir John Stratford of Market Harborough.",
+                        "Source_Images": "stratford_master_lineage_v4.xlsx"
+                },
+                {
+                        "ID": "S-STRAT-1510",
+                        "Name": "Anthony Stratford",
+                        "Birth": "c.1510",
+                        "Death": null,
+                        "Generation": -2,
+                        "Father_ID": "S-STRAT-1480",
+                        "Mother_ID": "S-GRSHM-1480",
+                        "Transcript": "[EVIDENCE: TRANSITIONAL_UNVERIFIED] — ESTIMATED LINK — This generation falls in the transitional zone between medieval English gentry records and confirmed colonial emigrants. The connection has not been verified with primary sources. Treat as provisional.\\n\\nSon of Sir John Stratford of Market Harborough and Millicent Gresham.\\n\\nNote: Dates in the c.1480-1560 cluster show compressed spacing (~5-6 years between generations) that is biologically implausible. Missing generations may exist, or earlier dates may be incorrect. Treat as provisional.",
+                        "Source_Images": "stratford_master_lineage_v4.xlsx"
+                },
+                {
+                        "ID": "S-STRAT-1560",
+                        "Name": "Thomas Stratford",
+                        "Birth": "April 1560",
+                        "Death": null,
+                        "Generation": -1,
+                        "Father_ID": "S-STRAT-1510",
+                        "Mother_ID": null,
+                        "Transcript": "[EVIDENCE: TRANSITIONAL_UNVERIFIED] — ESTIMATED LINK — This generation falls in the transitional zone between medieval English gentry records and confirmed colonial emigrants. The connection has not been verified with primary sources. Treat as provisional.\\n\\nSon of Anthony Stratford. Born April 1560 (specific date in family record). The connection to the preceding medieval gentry line is traditional but not independently verified.",
+                        "Source_Images": "stratford_master_lineage_v4.xlsx"
+                },
+                {
+                        "ID": "S-STRAT-1583",
+                        "Name": "Thomas Stratford",
+                        "Birth": "c.1583",
+                        "Death": null,
+                        "Generation": 0,
+                        "Father_ID": "S-STRAT-1560",
+                        "Mother_ID": null,
+                        "Transcript": "[EVIDENCE: COLONIAL_UNCONFIRMED] — Colonial Period, Unconfirmed — Named in family records but not cross-referenced with independent primary sources. Research ongoing.\\n\\nSon of Thomas Stratford (b. 1560). Married Elizabeth (maiden name unknown). Colonial emigrant generation. Father of Samuel Stratford who married Mercy Westcott.",
+                        "Source_Images": "stratford_master_lineage_v4.xlsx"
+                },
+                {
+                        "ID": "S-WSTCT-1570",
+                        "Name": "Stukeley Westcott",
+                        "Birth": "c.1570",
+                        "Death": null,
+                        "Generation": 0,
+                        "Father_ID": null,
+                        "Mother_ID": null,
+                        "Transcript": "[EVIDENCE: COLONIAL_UNCONFIRMED] — Colonial Period, Unconfirmed — Named in family records but not cross-referenced with independent primary sources. Research ongoing.\\n\\nMarried Juliana Marchant. Father of Mercy Westcott who married Samuel Stratford. Family settled in Providence, Rhode Island area.",
+                        "Source_Images": "stratford_master_lineage_v4.xlsx"
+                },
+                {
+                        "ID": "S-MARCH-1570",
+                        "Name": "Juliana Marchant",
+                        "Birth": "c.1570",
+                        "Death": null,
+                        "Generation": 0,
+                        "Father_ID": null,
+                        "Mother_ID": null,
+                        "Transcript": "[EVIDENCE: COLONIAL_UNCONFIRMED] — Colonial Period, Unconfirmed — Named in family records but not cross-referenced with independent primary sources. Research ongoing.\\n\\nWife of Stukeley Westcott; mother of Mercy Westcott.",
+                        "Source_Images": "stratford_master_lineage_v4.xlsx"
+                },
+                {
+                        "ID": "S-STRAT-1605",
+                        "Name": "Samuel Stratford",
+                        "Birth": "c.1605",
+                        "Death": null,
+                        "Generation": 1,
+                        "Father_ID": "S-STRAT-1583",
+                        "Mother_ID": null,
+                        "Transcript": "[EVIDENCE: COLONIAL_UNCONFIRMED] — Colonial Period, Unconfirmed — Named in family records but not cross-referenced with independent primary sources. Research ongoing.\\n\\nSon of Thomas Stratford. Married Mercy Westcott (daughter of Stukeley Westcott and Juliana Marchant). Father of Amos Stratford.",
+                        "Source_Images": "stratford_master_lineage_v4.xlsx"
+                },
+                {
+                        "ID": "S-WSTCT-1605",
+                        "Name": "Mercy Westcott",
+                        "Birth": "c.1610",
+                        "Death": null,
+                        "Generation": 1,
+                        "Father_ID": "S-WSTCT-1570",
+                        "Mother_ID": "S-MARCH-1570",
+                        "Transcript": "[EVIDENCE: COLONIAL_UNCONFIRMED] — Colonial Period, Unconfirmed — Named in family records but not cross-referenced with independent primary sources. Research ongoing.\\n\\nDaughter of Stukeley Westcott and Juliana Marchant. Wife of Samuel Stratford; mother of Amos Stratford.",
+                        "Source_Images": "stratford_master_lineage_v4.xlsx"
+                },
+                {
+                        "ID": "S-STRAT-1650",
+                        "Name": "Amos Stratford",
+                        "Birth": "c.1650",
+                        "Death": null,
+                        "Generation": 2,
+                        "Father_ID": "S-STRAT-1605",
+                        "Mother_ID": "S-WSTCT-1605",
+                        "Transcript": "[EVIDENCE: COLONIAL_UNCONFIRMED] — Colonial Period, Unconfirmed — Named in family records but not cross-referenced with independent primary sources. Research ongoing.\\n\\nSon of Samuel Stratford and Mercy Westcott. Married Mary Burlingame (daughter of Roger Burlingame). Settled in Warwick, Rhode Island. Father of Mary Stratford who married Samuel Bennett.",
+                        "Source_Images": "stratford_master_lineage_v4.xlsx"
+                },
+                {
+                        "ID": "S-BRLIN-1650",
+                        "Name": "Mary Burlingame",
+                        "Birth": "c.1653",
+                        "Death": null,
+                        "Generation": 2,
+                        "Father_ID": null,
+                        "Mother_ID": null,
+                        "Transcript": "[EVIDENCE: COLONIAL_UNCONFIRMED] — Colonial Period, Unconfirmed — Named in family records but not cross-referenced with independent primary sources. Research ongoing.\\n\\nDaughter of Roger Burlingame. Wife of Amos Stratford; mother of Mary Stratford (Stafford). The Burlingame family were Rhode Island settlers.",
+                        "Source_Images": "stratford_master_lineage_v4.xlsx"
+                },
+                {
+                        "ID": "S-STRAT-1690",
+                        "Name": "Mary Stratford (Stafford)",
+                        "Birth": "9/16/1690",
+                        "Death": "3/24/1782",
+                        "Generation": 3,
+                        "Father_ID": "S-STRAT-1650",
+                        "Mother_ID": "S-BRLIN-1650",
+                        "Transcript": "[EVIDENCE: COLONIAL_UNCONFIRMED] — Colonial Period, Unconfirmed — Named in family records but not cross-referenced with independent primary sources. Research ongoing.\\n\\nDaughter of Amos Stratford and Mary Burlingame. Married Samuel Bennett (b. 9/14/1690) on 9/15/1716 at Warwick, Rhode Island.\\n\\n'Stafford' is a common colonial Rhode Island variant spelling of 'Stratford'.\\n\\nSee the Bennett family view (search for 'Samuel Bennett b. 9/14/1690') to explore her children and descendants.",
+                        "Source_Images": "stratford_master_lineage_v4.xlsx"
                 }
         ],
         "children": {
+                "S-BAGOT-1150": ["S-STRAT-1175"],
+                "S-STRAT-1175": ["S-STRAT-1200"],
+                "S-STRAT-1200": ["S-STRAT-1225"],
+                "S-STRAT-1225": ["S-STRAT-1255"],
+                "S-STRAT-1255": ["S-STRAT-1280"],
+                "S-STRAT-1280": ["S-STRAT-1310"],
+                "S-STRAT-1310": ["S-STRAT-1340"],
+                "S-STRAT-1340": ["S-STRAT-1370"],
+                "S-STRAT-1370": ["S-STRAT-1400"],
+                "S-STRAT-1400": ["S-STRAT-1440"],
+                "S-STRAT-1440": ["S-STRAT-1480"],
+                "S-STRAT-1480": ["S-STRAT-1510"],
+                "S-STRAT-1510": ["S-STRAT-1560"],
+                "S-STRAT-1560": ["S-STRAT-1583"],
+                "S-STRAT-1583": ["S-STRAT-1605"],
+                "S-WSTCT-1570": ["S-WSTCT-1605"],
+                "S-STRAT-1605": ["S-STRAT-1650"],
+                "S-STRAT-1650": ["S-STRAT-1690"],
                 "B-EPHRAI-5/1/": [
                         "B-ABNER-1793",
                         "B-BRANT-1805",
@@ -4551,9 +6245,181 @@ const DATA = {
                         "B-SHIRLE-1/18",
                         "B-CAROLI-3/1/",
                         "B-WILLIA-11/2"
+                ],
+                "W-ERIK-1835": [
+                        "W-JOHAN-1869",
+                        "W-ANDERS-1871",
+                        "W-GUSTAV-1874",
+                        "W-WALFRI-1877",
+                        "W-MATILD-1879",
+                        "W-KRISTI-1881",
+                        "W-FREDRI-1883",
+                        "W-MARIA-1885",
+                        "W-KARL-1887"
+                ],
+                "W-JOHAN-1869": [
+                        "W-HILDUR-1896",
+                        "W-ERIK-1899",
+                        "W-WALTER-1904"
+                ],
+                "W-WALTER-1904": [
+                        "W-MARY-1943",
+                        "W-NANCY-1946"
+                ],
+                "W-MARY-1943": [
+                        "W-DAVID-1973",
+                        "W-JULIE-1976"
+                ],
+                "W-JULIE-1976": [
+                        "W-RYAN-2004"
+                ],
+                "W-NANCY-1946": [
+                        "W-CINDY-1964",
+                        "W-JENNIF-1970"
+                ],
+                "W-CINDY-1964": [
+                        "W-SARAH-1995",
+                        "W-STEPHA-1995",
+                        "W-SAMANT-1996"
+                ],
+                "W-JENNIF-1970": [
+                        "W-JACOB-1997",
+                        "W-RACHEL-1998"
+                ],
+                "W-GUSTAV-1874": [
+                        "W-KARL-1912",
+                        "W-GUSTAV-1913",
+                        "W-HILDUR-1916",
+                        "W-ERIK-1918",
+                        "W-JOHN-1920",
+                        "W-RUTH-1922"
+                ],
+                "W-KARL-1912": [
+                        "W-ALF-1950"
+                ],
+                "W-ALF-1950": [
+                        "W-KENT-1974",
+                        "W-ANNELI-1976",
+                        "W-TOMAS-1981"
+                ],
+                "W-GUSTAV-1913": [
+                        "W-GUNNEL-1952"
+                ],
+                "W-GUNNEL-1952": [
+                        "W-BO-1977",
+                        "W-ANNELI-1981"
+                ],
+                "W-HILDUR-1916": [
+                        "W-INGELA-1945",
+                        "W-LENI-1950",
+                        "W-JAN-1958"
+                ],
+                "W-INGELA-1945": [
+                        "W-HELENA-1968",
+                        "W-MATILD-1971"
+                ],
+                "W-HELENA-1968": [
+                        "W-EMMA-1996",
+                        "W-MOA-1999"
+                ],
+                "W-MATILD-1971": [
+                        "W-SIMON-XXXX"
+                ],
+                "W-LENI-1950": [
+                        "W-ERIK-1973",
+                        "W-SARA-1976",
+                        "W-FREDRI-XXXX",
+                        "W-CHRIST-XXXX"
+                ],
+                "W-JAN-1958": [
+                        "W-CAROLA-XXXX",
+                        "W-CAMILL-XXXX",
+                        "W-CHRIST-XXXX-2"
+                ],
+                "W-ERIK-1918": [
+                        "W-BORJE-1952",
+                        "W-AKE-1956",
+                        "W-INGER-1967"
+                ],
+                "W-INGER-1967": [
+                        "W-JOHANN-1998",
+                        "W-KARIN-2001"
+                ],
+                "W-JOHN-1920": [
+                        "W-JOHN-1963",
+                        "W-ANDERS-1966"
+                ],
+                "W-JOHN-1963": [
+                        "W-JULIA-1998",
+                        "W-JOHAN-1998"
+                ],
+                "W-ANDERS-1966": [
+                        "W-FELICI-1995",
+                        "W-JOSEFI-2001"
+                ],
+                "W-RUTH-1922": [
+                        "W-LEIF-1952",
+                        "W-INGRID-1956"
+                ],
+                "W-LEIF-1952": [
+                        "W-MARK-1994",
+                        "W-JOEL-1998"
+                ],
+                "W-INGRID-1956": [
+                        "W-THOMAS-1979",
+                        "W-MARTIN-XXXX",
+                        "W-ISABEL-XXXX"
+                ],
+                "W-WALFRI-1877": [
+                        "W-MARTA-1914",
+                        "W-EDIT-1915",
+                        "W-ELSA-1916-2"
+                ],
+                "W-EDIT-1915": [
+                        "W-HANS-1943-2"
+                ],
+                "W-ELSA-1916-2": [
+                        "W-BRITTI-1949",
+                        "W-HANS-1950"
+                ],
+                "W-BRITTI-1949": [
+                        "W-PERNIL-1970",
+                        "W-BO-1973"
+                ],
+                "W-FREDRI-1883": [
+                        "W-IRWING-1912"
+                ],
+                "W-IRWING-1912": [
+                        "W-DAVID-1938",
+                        "W-JUDY-1941"
+                ],
+                "W-DAVID-1938": [
+                        "B-ERIC-8/15",
+                        "B-SHELLY-11/2"
+                ],
+                "W-JUDY-1941": [
+                        "W-KEITH-1968",
+                        "W-BRIAN-1970"
+                ],
+                "W-PAULIN-XXXX": [
+                        "W-DAVID-1938"
                 ]
         },
         "spouse_map": {
+                "S-BAGOT-1150": ["Millicent de Stafford (b. c.1150)"],
+                "S-STRAT-1200": ["Edith Vernon (b. c.1200)"],
+                "S-STRAT-1225": ["Ermentrude Fitzwalkin (b. c.1225)"],
+                "S-STRAT-1280": ["Katherine de Hastrang (b. c.1280)"],
+                "S-STRAT-1310": ["Maud Hastrang (b. c.1310)"],
+                "S-STRAT-1340": ["Elizabeth Bunder (b. c.1340)"],
+                "S-STRAT-1370": ["Eleanor Aylesbury (b. c.1370)"],
+                "S-STRAT-1400": ["Margaret Frogg (b. c.1400)"],
+                "S-STRAT-1440": ["Dorothy Stratford (b. c.1440, cousin marriage)"],
+                "S-STRAT-1480": ["Millicent Gresham (b. c.1480)"],
+                "S-STRAT-1605": ["Mercy Westcott (b. c.1610)"],
+                "S-WSTCT-1570": ["Juliana Marchant (b. c.1570)"],
+                "S-STRAT-1650": ["Mary Burlingame (b. c.1653)"],
+                "S-STRAT-1690": ["Samuel Bennett (b. 9/14/1690) — see Bennett family view"],
                 "B-ABNER-1793": [
                         "Sarah Delia Latlin"
                 ],
@@ -4952,11 +6818,208 @@ const DATA = {
                 ],
                 "C-WILLIA-2/14": [
                         "Carrie Elizabeth Bennett <<-- entry to Bennett lineage"
+                ],
+                "W-ERIK-1835": [
+                        "Kaisa Johannesdotter"
+                ],
+                "W-KAISA-1844": [
+                        "Erik Börjesson"
+                ],
+                "W-JOHAN-1869": [
+                        "Maria Falander"
+                ],
+                "W-MARIA-1871": [
+                        "Johan Alfred Eriksson (Wennerlund)"
+                ],
+                "W-WALTER-1904": [
+                        "Hazel Sarah Johanna Fahlstrom"
+                ],
+                "W-HAZEL-1907": [
+                        "Walter Hanford Wennerlund"
+                ],
+                "W-MARY-1943": [
+                        "Lyle Sterling Hallock"
+                ],
+                "W-LYLE-1944": [
+                        "Mary Jean Wennerlund"
+                ],
+                "W-JULIE-1976": [
+                        "Dale Alan Howard"
+                ],
+                "W-DALE-1976": [
+                        "Julie Ann Hallock"
+                ],
+                "W-NANCY-1946": [
+                        "Larry James Swanson"
+                ],
+                "W-LARRY-1945": [
+                        "Nancy Key Wennerlund"
+                ],
+                "W-JENNIF-1970": [
+                        "Christoffer Thomas Hanson"
+                ],
+                "W-CHRIST-1970": [
+                        "Jennifer Lyn Swanson"
+                ],
+                "W-GUSTAV-1874": [
+                        "Vendela, Maria Johansson"
+                ],
+                "W-VENDEL-1882": [
+                        "Gustav Eriksson"
+                ],
+                "W-KARL-1912": [
+                        "Elsa, Margit Danielsson"
+                ],
+                "W-ELSA-1916": [
+                        "Karl Algot Eriksson"
+                ],
+                "W-ALF-1950": [
+                        "May-Britt Elisabeth Berger"
+                ],
+                "W-MAYBRI-1953": [
+                        "Alf, Börje, Ingemar Eriksson"
+                ],
+                "W-GUSTAV-1913": [
+                        "Astrid Linnea Nilsson"
+                ],
+                "W-ASTRID-1921": [
+                        "Gustav, Herbert Eriksson"
+                ],
+                "W-GUNNEL-1952": [
+                        "Bo, Harry Öberg"
+                ],
+                "W-BO-1950": [
+                        "Gunnel Marianne Eriksson"
+                ],
+                "W-BO-1977": [
+                        "Jessica Dagerbrant"
+                ],
+                "W-JESSIC-1982": [
+                        "Bo, Anders Öberg"
+                ],
+                "W-HILDUR-1916": [
+                        "Anders Erik Harald Ericsson"
+                ],
+                "W-ANDERS-1920": [
+                        "Hildur Maria Eriksson"
+                ],
+                "W-INGELA-1945": [
+                        "Hans Roland Nilsson"
+                ],
+                "W-HANS-1943": [
+                        "Ingela Lilian Margareta Ericsson"
+                ],
+                "W-LENI-1950": [
+                        "Hans Uno Jörgen Hedeås"
+                ],
+                "W-HANS-1951": [
+                        "Leni Ann Christina Ericsson"
+                ],
+                "W-JAN-1958": [
+                        "Katarina Margurite Olsson"
+                ],
+                "W-KATARI-1963": [
+                        "Jan Anders Christer Ericsson"
+                ],
+                "W-ERIK-1918": [
+                        "Elin Alvilda Lennartsson"
+                ],
+                "W-ELIN-1928": [
+                        "Erik Gunnar Eriksson"
+                ],
+                "W-INGER-1967": [
+                        "Jan-Erik Arne Danielsson Swanelius"
+                ],
+                "W-JANERI-1964": [
+                        "Inger Camilla Eriksson"
+                ],
+                "W-JOHN-1920": [
+                        "Anna-Stina Ragnhild Lennartsson"
+                ],
+                "W-ANNAST-1930": [
+                        "John Arne Eriksson"
+                ],
+                "W-JOHN-1963": [
+                        "Britt Anne Maria Nell"
+                ],
+                "W-BRITT-1967": [
+                        "John Olof Eriksson"
+                ],
+                "W-ANDERS-1966": [
+                        "Else Nomi Maria Kühne"
+                ],
+                "W-ELSE-1964": [
+                        "Anders Conny Eriksson"
+                ],
+                "W-RUTH-1922": [
+                        "Karl Torsten Helge Vivat"
+                ],
+                "W-KARL-1918": [
+                        "Ruth Ingegärd Eriksson"
+                ],
+                "W-LEIF-1952": [
+                        "Helena Jungermann"
+                ],
+                "W-HELENA-1962": [
+                        "Leif Gunnar Vivat"
+                ],
+                "W-INGRID-1956": [
+                        "Karl Anders Torben Rundqvist"
+                ],
+                "W-KARL-1954": [
+                        "Ingrid Birgitta Vivat"
+                ],
+                "W-WALFRI-1877": [
+                        "Olga Elisabet Andersson"
+                ],
+                "W-OLGA-1891": [
+                        "Walfrid Eriksson"
+                ],
+                "W-EDIT-1915": [
+                        "Bror Evald Wieweg"
+                ],
+                "W-BROR-1904": [
+                        "Edit Linnéa Eriksson"
+                ],
+                "W-ELSA-1916-2": [
+                        "Erik Vilhelm Örn"
+                ],
+                "W-ERIK-1911": [
+                        "Elsa Maria Eriksson"
+                ],
+                "W-BRITTI-1949": [
+                        "Bo Christer Axelsson"
+                ],
+                "W-BO-1945": [
+                        "Britt-Inger Elisabeth Örn"
+                ],
+                "W-KRISTI-1881": [
+                        "Alfred Skarin"
+                ],
+                "W-ALFRED-1877": [
+                        "Kristina Eriksdotter"
+                ],
+                "W-FREDRI-1883": [
+                        "Julia ?"
+                ],
+                "W-JULIA-1912": [
+                        "Fredrik (Frank) Eriksson (Wennerlund)"
+                ],
+                "W-IRWING-1912": [
+                        "Pauline Wennerlund"
+                ],
+                "W-PAULIN-XXXX": [
+                        "Irwing Frank Wennerlund"
+                ],
+                "W-DAVID-1938": [
+                        "Victoria Hammond"
                 ]
         },
         "roots": {
                 "edward_bennett": "B-EDWARD-001",
-                "james_christy": "C-JAMES-1750"
+                "james_christy": "C-JAMES-1750",
+                "erik_borjesson": "W-ERIK-1835",
+                "harvey_bagot": "S-BAGOT-1150"
         },
         "patriot_lineage": [
                 "B-EPHRAI-1736",
@@ -4975,6 +7038,13 @@ const DATA = {
         "merge_point": [
                 "B-CARRIE-1843",
                 "C-WILLIA-2/14"
+        ],
+        "wennerlund_lineage": [
+                "W-ERIK-1835",
+                "W-FREDRI-1883",
+                "W-IRWING-1912",
+                "W-DAVID-1938",
+                "B-ERIC-8/15"
         ]
 }
 
@@ -5005,6 +7075,10 @@ const DATA = {
                 }
             } else if (currentFamily === 'merged') {
                 return 'merged';
+            } else if (currentFamily === 'wennerlund') {
+                return DATA.roots.erik_borjesson;
+            } else if (currentFamily === 'stratford') {
+                return DATA.roots.harvey_bagot;
             }
             return DATA.roots.edward_bennett;
         }
@@ -5324,6 +7398,10 @@ const DATA = {
             if (rootId === 'merged') {
                 expandAllIterative(DATA.roots.edward_bennett);
                 expandAllIterative(DATA.roots.james_christy);
+            } else if (rootId === DATA.roots.erik_borjesson) {
+                expandAllIterative(DATA.roots.erik_borjesson);
+            } else if (rootId === DATA.roots.harvey_bagot) {
+                expandAllIterative(DATA.roots.harvey_bagot);
             } else if (rootId) {
                 expandAllIterative(rootId);
             } else {
@@ -5386,7 +7464,22 @@ const DATA = {
         });
 
         // Initialize
-        window.addEventListener('load', renderTree);
+        // Update subtitle with live person counts broken down by family
+        function updateSubtitle() {
+            const total   = DATA.people.length;
+            const bc      = DATA.people.filter(p => p.ID.startsWith('B-') || p.ID.startsWith('C-')).length;
+            const wenn    = DATA.people.filter(p => p.ID.startsWith('W-')).length;
+            const strat   = DATA.people.filter(p => p.ID.startsWith('S-')).length;
+            const el = document.getElementById('subtitle');
+            if (el) {
+                el.textContent = `v5.0  ·  ${total} total individuals  |  Bennett/Christy: ${bc}  |  Wennerlund: ${wenn}  |  Stratford: ${strat}`;
+            }
+        }
+
+        window.addEventListener('load', function() {
+            updateSubtitle();
+            renderTree();
+        });
 
     </script>
 </body>
